@@ -6,61 +6,65 @@ use Illuminate\Http\Request;
 
 class KatalogController extends Controller
 {
+    // DATA SEMENTARA (biar gak ditulis ulang terus)
+    private $products = [
+        ['id' => 1, 'nama' => 'Paracetamol', 'harga' => 3500],
+        ['id' => 2, 'nama' => 'Amoxicillin', 'harga' => 6000],
+        ['id' => 3, 'nama' => 'Ibuprofen', 'harga' => 4000],
+        ['id' => 4, 'nama' => 'Salep Scabimite', 'harga' => 80000],
+        ['id' => 5, 'nama' => 'Sanmol Syrup', 'harga' => 18000],
+    ];
+
+    // 📦 HALAMAN KATALOG
     public function index()
     {
-        $products = [
-            ['id' => 1, 'nama' => 'Paracetamol', 'harga' => 3500],
-            ['id' => 2, 'nama' => 'Amoxicillin', 'harga' => 6000],
-            ['id' => 3, 'nama' => 'Ibuprofen', 'harga' => 4000],
-            ['id' => 4, 'nama' => 'Salep Scabimite', 'harga' => 80000],
-            ['id' => 5, 'nama' => 'Sanmol Syrup', 'harga' => 18000],
-        ];
-
-        return view('katalog.index', compact('products'));
+        return view('produk.index', [
+            'products' => $this->products
+        ]);
     }
 
+    // 📄 DETAIL PRODUK
     public function show($id)
     {
-        $all = [
-            1 => ['id' => 1, 'nama' => 'Paracetamol', 'harga' => 3500, 'deskripsi' => 'Pereda demam & nyeri.'],
-            2 => ['id' => 2, 'nama' => 'Amoxicillin', 'harga' => 6000, 'deskripsi' => 'Antibiotik.'],
-            3 => ['id' => 3, 'nama' => 'Ibuprofen ', 'harga' => 4000, 'deskripsi' => 'Anti-inflamasi.'],
-            4 => ['id' => 4, 'nama' => 'Salep Antiseptik', 'harga' => 80000, 'deskripsi' => 'Untuk luka ringan.'],
-            5 => ['id' => 5, 'nama' => 'Sanmol Syrup', 'harga' => 18000, 'deskripsi' => 'Sirup penurun panas.'],
-        ];
+        $product = collect($this->products)->firstWhere('id', $id);
 
-        if (!isset($all[$id])) {
-            abort(404, 'Produk tidak ditemukan.');
+        if (!$product) {
+            abort(404, 'Produk tidak ditemukan');
         }
 
-        $product = $all[$id];
+        // tambah deskripsi manual
+        $product['deskripsi'] = match($id) {
+            1 => 'Pereda demam & nyeri',
+            2 => 'Antibiotik',
+            3 => 'Anti-inflamasi',
+            4 => 'Untuk luka ringan',
+            5 => 'Sirup penurun panas',
+            default => '-'
+        };
 
-        return view('katalog.show', compact('product'));
+        return view('produk.show', compact('product'));
     }
 
-    public function search($keyword)
+    // 🔍 SEARCH PRODUK
+    public function search(Request $request)
     {
-        $products = [
-            ['id' => 1, 'nama' => 'Paracetamol', 'harga' => 3500],
-            ['id' => 2, 'nama' => 'Amoxicillin', 'harga' => 6000],
-            ['id' => 3, 'nama' => 'Ibuprofen', 'harga' => 4000],
-            ['id' => 4, 'nama' => 'Salep Scabimite', 'harga' => 80000],
-            ['id' => 5, 'nama' => 'Sanmol Syrup', 'harga' => 18000],
-        ];
+        $keyword = $request->input('keyword');
 
-        $hasilCari = array_filter($products, function ($item) use ($keyword) {
+        $hasilCari = collect($this->products)->filter(function ($item) use ($keyword) {
             return str_contains(strtolower($item['nama']), strtolower($keyword));
         });
 
-
-        return view('katalog.search', [
+        return view('produk.search', [
             'products' => $hasilCari,
             'keyword' => $keyword
         ]);
     }
 
+    // 🏷️ KATEGORI
     public function kategori($kategori)
     {
-        return "<h1>Kategori: $kategori</h1><p>Menampilkan grup obat $kategori</p><br><a href='" . route('katalog.index') . "'>Kembali</a>";
+        return view('produk.kategori', [
+            'kategori' => $kategori
+        ]);
     }
 }
