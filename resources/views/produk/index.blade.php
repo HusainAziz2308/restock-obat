@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.main')
 
 @section('content')
 
-<h1 class="text-3xl font-bold text-green-600 mb-6">
+<h1 class="text-3xl font-bold mb-6">
     💊 Katalog Obat
 </h1>
 
@@ -15,12 +15,12 @@
             {{ $item['nama'] }}
         </h2>
 
-        <p class="text-green-600 mt-2 font-semibold">
+        <p class="text-blue-600 mt-2 font-semibold">
             Rp {{ number_format($item['harga'], 0, ',', '.') }}
         </p>
 
         <a href="/katalog/{{ $item['id'] }}"
-           class="block mt-4 bg-green-500 text-white text-center py-2 rounded-lg hover:bg-green-600">
+           class="block mt-4 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700">
            Detail
         </a>
 

@@ -9,10 +9,14 @@ use App\Http\Controllers\KatalogController;
 | HOME
 |--------------------------------------------------------------------------
 */
-Route::get('/', function () {
-    return view('welcome');
-})->name('home.index');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('home.index');
+Route::redirect('/', '/home');
 
+Route::get('/home', function () {
+    return view('home');
+});
 
 /*
 |--------------------------------------------------------------------------

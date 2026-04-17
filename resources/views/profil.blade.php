@@ -6,7 +6,8 @@
 </head>
 
 <body>
-
+@extends('layouts.main')
+@section('content')
     <h1>Daftar Profil Mahasiswa</h1>
 
     <table border="1" cellpadding="10">
@@ -31,7 +32,7 @@
         @endforeach
 
     </table>
-
+@endsection
 </body>
 
 </html>

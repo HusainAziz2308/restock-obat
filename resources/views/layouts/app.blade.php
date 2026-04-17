@@ -9,7 +9,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+<body class="bg-slate-50 flex flex-col min-h-screen">
 
     {{-- 🔝 NAVBAR --}}
     @include('partials.navbar')
