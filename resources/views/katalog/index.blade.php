@@ -1,30 +1,56 @@
-<!doctype html>
-<html lang="id">
+@extends('layouts.main')
 
-<head>
-    <meta charset="utf-8">
-    <title>Katalog Produk</title>
-</head>
+@section('content')
 
-<body>
-    <h1>Katalog Produk</h1>
-    <form action="" onsubmit="this.action='/katalog/cari/'+document.getElementById('keyword').value">
-        <label>Cari Obat:</label>
-        <input type="text" id="keyword" required>
-        <button type="submit">Cari</button>
+<div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">
+        Katalog Obat
+    </h1>
+    <p class="mb-4 text-red-600">
+        Total Produk: {{ $products->count() }}
+    </p>
+
+    <form action="/katalog/search" method="GET" class="flex gap-3 mb-8">
+        <input
+            type="text"
+            name="keyword"
+            placeholder="Cari obat..."
+            class="border border-gray-300 rounded-lg px-4 py-3 w-80">
+
+        <button
+            class="bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700">
+            Cari
+        </button>
     </form>
 
-    <br>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-    <ul>
         @foreach($products as $product)
-        <li>
-            <strong>{{ $product['nama'] }}</strong>
-            — Rp {{ number_format($product['harga'], 0, ',', '.') }}
-            <a href="{{ route('katalog.show', ['id' => $product['id']]) }}">Lihat</a>
-        </li>
-        @endforeach
-    </ul>
-</body>
+        <div class="bg-gray-50 p-6 rounded-xl border border-gray-100">
 
-</html>
+            <h3 class="font-bold text-gray-800 text-xl mb-2">
+                {{ $product->name }}
+            </h3>
+
+            <p class="text-gray-600 mb-1">
+                Harga: Rp {{ number_format($product->price,0,',','.') }}
+            </p>
+
+            <p class="text-gray-600 mb-4">
+                Stok: {{ $product->stock }}
+            </p>
+
+            <a href="/obat/{{ $product->id }}"
+                class="text-blue-600 font-semibold hover:underline">
+                Lihat Detail
+            </a>
+
+        </div>
+        @endforeach
+
+    </div>
+
+</div>
+
+@endsection
