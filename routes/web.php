@@ -66,7 +66,6 @@ Route::prefix('katalog')->group(function () {
     Route::get('/kategori/{kategori}', [KatalogController::class, 'kategori'])->name('katalog.kategori');
 
     Route::get('/{id}', [KatalogController::class, 'show'])->name('katalog.show');
-
 });
 
 
@@ -84,5 +83,5 @@ Route::get('/profil/{nim}', [ProfilController::class, 'show'])->name('profil.sho
 | OPTIONAL (ALIAS OBAT)
 |--------------------------------------------------------------------------
 */
-Route::get('/obat', [KatalogController::class, 'index']);
+Route::redirect('/obat', '/katalog');
 Route::get('/obat/{id}', [KatalogController::class, 'show']);
