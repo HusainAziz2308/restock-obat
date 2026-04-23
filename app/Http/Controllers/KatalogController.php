@@ -37,4 +37,43 @@ class KatalogController extends Controller
     {
         return view('produk.kategori', compact('kategori'));
     }
+    public function edit($id)
+    {
+        $product = Medicine::findOrFail($id);
+        return view('katalog.edit', compact('product'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $product = Medicine::findOrFail($id);
+
+        $product->update([
+            'code' => $request->code,
+            'name' => $request->name,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'expired_date' => $request->expired_date,
+            'image' => $request->image,
+        ]);
+
+        // jika upload gambar baru
+        if ($request->hasFile('image')) {
+
+            $file = $request->file('image');
+
+            $filename = time() . '_' . $file->getClientOriginalName();
+
+            $file->move(public_path('images/obat'), $filename);
+
+            $data['image'] = $filename;
+        }
+
+        $product->update($data);
+
+        return redirect('/katalog/' . $id);
+    }
+    public function create()
+    {
+        return view('katalog.create');
+    }
 }

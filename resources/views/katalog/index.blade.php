@@ -4,9 +4,18 @@
 
 <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
 
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">
-        Katalog Obat
-    </h1>
+    <div class="flex justify-between items-center mb-6">
+
+        <h1 class="text-3xl font-bold text-gray-800">
+            💊 Katalog Obat
+        </h1>
+
+        <a href="/katalog/create"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl font-semibold shadow-sm">
+            + Tambah Obat
+        </a>
+
+    </div>
     <p class="mb-4 text-red-600">
         Total Produk: {{ $products->count() }}
     </p>

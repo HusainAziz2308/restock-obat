@@ -58,8 +58,9 @@ Route::prefix('katalog')->group(function () {
     Route::get('/', [KatalogController::class, 'index'])->name('katalog.index');
 
     Route::get('/create', function () {
-        return view('produk.create');
+        return view('katalog.create');
     })->name('katalog.create');
+
 
     Route::get('/search', [KatalogController::class, 'search'])->name('katalog.search');
 
@@ -67,6 +68,11 @@ Route::prefix('katalog')->group(function () {
 
     Route::get('/{id}', [KatalogController::class, 'show'])->name('katalog.show');
 });
+
+Route::get('/katalog/{id}/edit', [KatalogController::class, 'edit'])->name('katalog.edit');
+Route::put('/katalog/{id}', [KatalogController::class, 'update'])->name('katalog.update');
+
+
 
 
 /*
@@ -85,3 +91,5 @@ Route::get('/profil/{nim}', [ProfilController::class, 'show'])->name('profil.sho
 */
 Route::redirect('/obat', '/katalog');
 Route::get('/obat/{id}', [KatalogController::class, 'show']);
+Route::get('/katalog/{id}/edit', [KatalogController::class, 'edit'])->name('katalog.edit');
+Route::put('/katalog/{id}', [KatalogController::class, 'update'])->name('katalog.update');
