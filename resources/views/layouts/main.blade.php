@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restock Obat - Kelompok 4</title>
     @vite('resources/css/app.css')
 </head>
+
 <body class="bg-gray-50">
 
     <nav class="bg-blue-600 p-4 shadow-lg">
@@ -21,12 +23,15 @@
                 </ul>
             </div>
             <div>
-                <button class="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-blue-50 hover:scale-110 transition">
-                    login
-                </button>
-                <button class="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-blue-50 hover:scale-110 transition">
-                    Daftar
-                </button>
+                @if (Auth::check())
+                    <a href="{{ url('/admin') }}" class="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-blue-50 hover:scale-110 transition inline-block">
+                        Dashboard
+                    </a>
+                @else
+                    <a href="{{ url('/admin') }}" class="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-blue-50 hover:scale-110 transition inline-block">
+                        Login
+                    </a>
+                @endif
             </div>
         </div>
     </nav>
@@ -34,6 +39,7 @@
     <main class="container mx-auto mt-15">
         @yield('content')
     </main>
-@extends('partials.footer')
+    @extends('partials.footer')
 </body>
+
 </html>
