@@ -16,7 +16,7 @@
         </p>
     </div>
 
-    <form action="/katalog/store" method="POST" enctype="multipart/form-data" class="space-y-6">
+    <form action="{{ route('katalog.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
 
         <div class="grid grid-cols-2 gap-8">

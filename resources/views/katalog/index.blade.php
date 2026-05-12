@@ -37,7 +37,7 @@
 
         @foreach($products as $product)
         <div class="bg-gray-50 p-6 rounded-xl border border-gray-100">
-            <img src="{{ asset('images/obat/' . $product->image) }}"
+            <img src="{{ $product->image_url }}"
                 class="w-full h-40 object-cover rounded-xl mb-4">
             <h3 class="font-bold text-gray-800 text-xl mb-2">
                 {{ $product->name }}

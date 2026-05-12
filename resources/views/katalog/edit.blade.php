@@ -17,7 +17,7 @@
         </p>
     </div>
 
-    <form action="/katalog/{{ $product->id }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+    <form action="{{ route('katalog.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
         @method('PUT')
 
@@ -97,7 +97,7 @@
 
                     <div class="bg-gray-50 border rounded-2xl p-3 flex justify-center">
                         <img
-                            src="{{ $product->image ? asset('images/obat/' . $product->image) : 'https://placehold.co/250x250?text=No+Image' }}"
+                            src="{{ $product->image_url }}"
                             style="width:110px; height:110px; object-fit:contain;"
                             class="mx-auto">
                     </div>

@@ -56,21 +56,14 @@ Route::view('/promo', 'pages.promo')->name('promo.index');
 Route::prefix('katalog')->group(function () {
 
     Route::get('/', [KatalogController::class, 'index'])->name('katalog.index');
-
-    Route::get('/create', function () {
-        return view('katalog.create');
-    })->name('katalog.create');
-
-
+    Route::get('/create', [KatalogController::class, 'create'])->name('katalog.create');
+    Route::post('/store', [KatalogController::class, 'store'])->name('katalog.store');
     Route::get('/search', [KatalogController::class, 'search'])->name('katalog.search');
-
     Route::get('/kategori/{kategori}', [KatalogController::class, 'kategori'])->name('katalog.kategori');
-
+    Route::get('/{id}/edit', [KatalogController::class, 'edit'])->name('katalog.edit');
+    Route::put('/{id}', [KatalogController::class, 'update'])->name('katalog.update');
     Route::get('/{id}', [KatalogController::class, 'show'])->name('katalog.show');
 });
-
-Route::get('/katalog/{id}/edit', [KatalogController::class, 'edit'])->name('katalog.edit');
-Route::put('/katalog/{id}', [KatalogController::class, 'update'])->name('katalog.update');
 
 
 
@@ -91,5 +84,3 @@ Route::get('/profil/{nim}', [ProfilController::class, 'show'])->name('profil.sho
 */
 Route::redirect('/obat', '/katalog');
 Route::get('/obat/{id}', [KatalogController::class, 'show']);
-Route::get('/katalog/{id}/edit', [KatalogController::class, 'edit'])->name('katalog.edit');
-Route::put('/katalog/{id}', [KatalogController::class, 'update'])->name('katalog.update');
