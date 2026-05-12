@@ -69,10 +69,10 @@ class MedicineResource extends Resource
                             ->searchable()
                             ->preload(),
                         FileUpload::make('image')
-                            ->label('Foto')
+                            ->label('Foto (Maksimal 5 mb)')
                             ->image()
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->maxSize(2048)
+                            ->maxSize(5120)
                             ->directory('obat')
                             ->disk('public')
                             ->columnSpanFull(),
