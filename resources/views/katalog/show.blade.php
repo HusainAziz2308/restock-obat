@@ -9,7 +9,7 @@
         {{-- KOLOM KIRI : GAMBAR --}}
         <div class="bg-gray-50 rounded-2xl flex justify-center items-center" style="min-height: 240px;">
             <img
-                src="{{ $product->image ? asset('images/obat/' . $product->image) : 'https://placehold.co/300x300?text=No+Image' }}"
+                src="{{ $product->image_url }}"
                 style="width: 260px; height: 260px; object-fit: contain;"
                 alt="{{ $product->name }}">
         </div>

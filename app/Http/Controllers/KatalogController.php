@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Medicine;
+use Illuminate\Validation\Rule;
 
 class KatalogController extends Controller
 {
@@ -47,24 +48,19 @@ class KatalogController extends Controller
     {
         $product = Medicine::findOrFail($id);
 
-        $product->update([
-            'code' => $request->code,
-            'name' => $request->name,
-            'price' => $request->price,
-            'stock' => $request->stock,
-            'expired_date' => $request->expired_date,
-            'image' => $request->image,
+        $data = $request->validate([
+            'code' => ['required', 'string', 'max:255', Rule::unique('medicines', 'code')->ignore($product->id)],
+            'name' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'integer', 'min:0'],
+            'stock' => ['required', 'integer', 'min:0'],
+            'expired_date' => ['nullable', 'date'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
 
-        // jika upload gambar baru
         if ($request->hasFile('image')) {
-
             $file = $request->file('image');
-
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = time() . '_' . preg_replace('/[^A-Za-z0-9._-]/', '_', $file->getClientOriginalName());
             $file->move(public_path('images/obat'), $filename);
-
             $data['image'] = $filename;
         }
 
@@ -75,5 +71,28 @@ class KatalogController extends Controller
     public function create()
     {
         return view('katalog.create');
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'code' => ['required', 'string', 'max:255', 'unique:medicines,code'],
+            'name' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'integer', 'min:0'],
+            'stock' => ['required', 'integer', 'min:0'],
+            'expired_date' => ['nullable', 'date'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+        ]);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '_' . preg_replace('/[^A-Za-z0-9._-]/', '_', $file->getClientOriginalName());
+            $file->move(public_path('images/obat'), $filename);
+            $data['image'] = $filename;
+        }
+
+        $product = Medicine::create($data);
+
+        return redirect()->route('katalog.show', $product->id);
     }
 }
