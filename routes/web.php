@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\KatalogController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +14,7 @@ use App\Http\Controllers\KatalogController;
 //     return view('welcome');
 // })->name('home.index');
 Route::redirect('/', '/home');
-
-Route::get('/home', function () {
-    return view('home');
-});
+Route::get('/home', [HomeController::class, 'index'])->name('home.index');
 
 /*
 |--------------------------------------------------------------------------
