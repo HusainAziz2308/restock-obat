@@ -1,4 +1,4 @@
-<div x-data="{ activeSlide: 0, slideCount: {{ count($sliders ?? []) }} }" 
+<div x-data="{ activeSlide: 0, slideCount: {{ count($sliders ?? []) }} }"
      x-init="setInterval(() => { activeSlide = (activeSlide === slideCount - 1) ? 0 : activeSlide + 1 }, 5000)"
      class="relative h-screen w-full overflow-hidden bg-slate-900">
 
@@ -25,7 +25,7 @@
                     {{ $slide['subtitle'] }}
                 </p>
                 <div class="flex gap-4">
-                    <a href="/admin/login" class="px-8 py-3.5 text-base font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-lg transition-all duration-200">
+                    <a href="/admin/login" class="px-8 py-3.5 text-base font-bold text-white bg-blue-600 hover:scale-110 rounded-xl shadow-lg transition-all duration-200">
                         Mulai Kelola
                     </a>
                 </div>
@@ -38,7 +38,7 @@
             class="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 p-3 rounded-full text-white backdrop-blur-sm transition-all">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
     </button>
-    
+
     <button @click="activeSlide = (activeSlide === slideCount - 1) ? 0 : activeSlide + 1"
             class="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 p-3 rounded-full text-white backdrop-blur-sm transition-all">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>

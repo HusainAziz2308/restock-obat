@@ -9,7 +9,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
-<body class="bg-slate-50 font-sans text-gray-800 antialiased flex flex-col min-h-screen">
+<body class="bg-white font-sans text-gray-800 antialiased flex flex-col min-h-screen">
 
     @include('partials.navbar')
 

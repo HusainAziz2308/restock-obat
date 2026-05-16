@@ -1,4 +1,4 @@
-<div x-data="{ activeSlide: 0, slideCount: {{ count($sliders) }} }" 
+<div x-data="{ activeSlide: 0, slideCount: {{ count($sliders) }} }"
      x-init="setInterval(() => { activeSlide = (activeSlide === slideCount - 1) ? 0 : activeSlide + 1 }, 5000)"
      class="relative bg-slate-900 pt-32 pb-16 overflow-hidden">
 
@@ -16,10 +16,10 @@
         </div>
         @endforeach
     </div>
-    
+
     <div class="absolute inset-0 bg-slate-950/80 z-0 backdrop-blur-[2px]"></div>
 
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div class="relative z-10 max-w-full mx-auto px-6 md:px-12 text-center md:text-left flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
             <h1 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
                 @yield('page_title')

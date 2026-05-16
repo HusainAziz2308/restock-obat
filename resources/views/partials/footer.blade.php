@@ -1,5 +1,5 @@
 <footer class="bg-slate-900 text-gray-300 border-t border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-full mx-auto px-6 sm:px-12 py-12">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
 
             <div class="space-y-4">
@@ -17,11 +17,11 @@
             <div class="space-y-4">
                 <h4 class="text-white font-semibold text-lg tracking-wide">Navigasi</h4>
                 <div class="flex flex-col gap-2.5 text-sm">
-                    <a href="/home" class="hover:text-blue-400 transition-colors duration-200 w-fit">Home</a>
-                    <a href="/katalog" class="hover:text-blue-400 transition-colors duration-200 w-fit">Katalog Obat</a>
-                    <a href="/about" class="hover:text-blue-400 transition-colors duration-200 w-fit">Tentang Kami</a>
-                    <a href="/promo" class="hover:text-blue-400 transition-colors duration-200 w-fit">Promo & Diskon</a>
-                    <a href="/contact" class="hover:text-blue-400 transition-colors duration-200 w-fit">Hubungi Kontak</a>
+                    <a href="/home" class="hover:text-blue-400 hover:scale-105 text-bold transition-all duration-200 w-fit">Home</a>
+                    <a href="/katalog" class="hover:text-blue-400 hover:scale-105 text-bold transition-all duration-200 w-fit">Katalog Obat</a>
+                    <a href="/about" class="hover:text-blue-400 hover:scale-105 text-bold transition-all duration-200 w-fit">Tentang Kami</a>
+                    <a href="/promo" class="hover:text-blue-400 hover:scale-105 text-bold transition-all duration-200 w-fit">Promo & Diskon</a>
+                    <a href="/contact" class="hover:text-blue-400 hover:scale-105 text-bold transition-all duration-200 w-fit">Hubungi Kontak</a>
                 </div>
             </div>
 
@@ -29,15 +29,15 @@
                 <h4 class="text-white font-semibold text-lg tracking-wide">Informasi Kontak</h4>
                 <div class="flex flex-col gap-3 text-sm text-gray-400">
                     <p class="flex items-start gap-2.5">
-                        <span class="text-base">📍</span> 
+                        <span class="text-base">📍</span>
                         <span>Jl. Raya Jombang-Babay No. 10, Peterongan, Jombang</span>
                     </p>
                     <p class="flex items-center gap-2.5">
-                        <span class="text-base">📞</span> 
+                        <span class="text-base">📞</span>
                         <span>(0321) 123456</span>
                     </p>
                     <p class="flex items-center gap-2.5">
-                        <span class="text-base">✉️</span> 
+                        <span class="text-base">✉️</span>
                         <a href="mailto:info@restockobat.com" class="hover:text-blue-400 transition-colors">info@restockobat.com</a>
                     </p>
                 </div>
