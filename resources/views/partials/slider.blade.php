@@ -1,4 +1,6 @@
-<div x-data="{ activeSlide: 0, slideCount: {{ count($sliders) }} }" class="relative h-screen w-full overflow-hidden bg-slate-900">
+<div x-data="{ activeSlide: 0, slideCount: {{ count($sliders ?? []) }} }" 
+     x-init="setInterval(() => { activeSlide = (activeSlide === slideCount - 1) ? 0 : activeSlide + 1 }, 5000)"
+     class="relative h-screen w-full overflow-hidden bg-slate-900">
 
     <div class="relative w-full h-full">
         @foreach ($sliders as $index => $slide)

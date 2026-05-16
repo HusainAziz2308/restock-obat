@@ -71,8 +71,8 @@ Route::prefix('katalog')->group(function () {
 | PROFIL
 |--------------------------------------------------------------------------
 */
-Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
-Route::get('/profil/{nim}', [ProfilController::class, 'show'])->name('profil.show');
+Route::get('/about', [ProfilController::class, 'index'])->name('about.index');
+Route::get('/about/{nim}', [ProfilController::class, 'show'])->name('about.show');
 
 
 /*
