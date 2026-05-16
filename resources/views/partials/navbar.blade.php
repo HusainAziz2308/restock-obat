@@ -17,31 +17,31 @@
         <div class="hidden md:flex gap-6 items-center">
 
             <a href="/home"
-               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-300 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-300  hover:text-white'"
+               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-200 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-200  hover:text-white'"
                class="font-medium transition-all duration-200 pb-1 {{ Route::is('home.index') ? 'border-b-2 border-blue-600' : '' }}">
                Home
             </a>
 
             <a href="/katalog"
-               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-300 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-300 hover:text-white'"
+               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-200 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-200 hover:text-white'"
                class="font-medium transition-all duration-200 pb-1 {{ Route::is('katalog.*') ? 'border-b-2 border-blue-600' : '' }}">
                Katalog Layanan
             </a>
 
             <a href="/about"
-               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-300 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-300 hover:text-white'"
+               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-200 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-200 hover:text-white'"
                class="font-medium transition-all duration-200 pb-1 {{ Route::is('about.index') ? 'border-b-2 border-blue-600' : '' }}">
                Tentang Kami
             </a>
 
             <a href="/promo"
-               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-300 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-300 hover:text-white'"
+               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-200 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-200 hover:text-white'"
                class="font-medium transition-all duration-200 pb-1 {{ Route::is('promo.index') ? 'border-b-2 border-blue-600' : '' }}">
                Promo
             </a>
 
             <a href="/contact"
-               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-300 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-300 hover:text-white'"
+               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-200 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-200 hover:text-white'"
                class="font-medium transition-all duration-200 pb-1 {{ Route::is('contact.index') ? 'border-b-2 border-blue-600' : '' }}">
                Kontak
             </a>
