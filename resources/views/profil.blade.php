@@ -6,7 +6,7 @@
 </head>
 
 <body>
-@extends('layouts.main')
+@extends('layouts.app')
 @section('content')
     <h1>Daftar Profil Mahasiswa</h1>
 
