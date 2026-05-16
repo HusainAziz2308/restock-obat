@@ -16,7 +16,9 @@ class ProfilController extends Controller
                 'Desain Basis Data',
                 'HTML'
             ],
-            'foto' => 'nukhi.jpg'
+            'jabatan' => 'Anggota Tim',
+            'status' => 'Mahasiswa Aktif',
+            'foto' => 'nukhi.jpeg'
         ],
         [
             'nama' => 'Husain Aziz Al Rosyid',
@@ -29,6 +31,8 @@ class ProfilController extends Controller
                 'Github Project Management',
                 'Jaringan Komputer'
             ],
+            'jabatan' => 'Ketua Tim',
+            'status' => 'Mahasiswa Aktif',
             'foto' => 'husain.png'
         ],
         [
@@ -41,6 +45,8 @@ class ProfilController extends Controller
                 'Basis Data',
                 'Jaringan Komputer'
             ],
+            'jabatan' => 'Anggota Tim',
+            'status' => 'Mahasiswa Aktif',
             'foto' => 'affani.jpg'
         ]
     ];
