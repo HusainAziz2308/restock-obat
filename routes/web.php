@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\KatalogController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +14,7 @@ use App\Http\Controllers\KatalogController;
 //     return view('welcome');
 // })->name('home.index');
 Route::redirect('/', '/home');
-
-Route::get('/home', function () {
-    return view('home');
-});
+Route::get('/home', [HomeController::class, 'index'])->name('home.index');
 
 /*
 |--------------------------------------------------------------------------
@@ -73,8 +71,8 @@ Route::prefix('katalog')->group(function () {
 | PROFIL
 |--------------------------------------------------------------------------
 */
-Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
-Route::get('/profil/{nim}', [ProfilController::class, 'show'])->name('profil.show');
+Route::get('/about', [ProfilController::class, 'index'])->name('about.index');
+Route::get('/about/{nim}', [ProfilController::class, 'show'])->name('about.show');
 
 
 /*

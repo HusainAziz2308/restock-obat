@@ -19,6 +19,8 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Psy\Command\ThrowUpCommand;
+use function Illuminate\Support\years;
 
 class MedicineResource extends Resource
 {
@@ -38,7 +40,7 @@ class MedicineResource extends Resource
                     ->schema([
                         TextInput::make('code')
                             ->label('Kode Obat')
-                            ->required()
+                            ->required(true)
                             ->unique(ignoreRecord: true)
                             ->maxLength(255),
                         TextInput::make('name')
@@ -48,15 +50,16 @@ class MedicineResource extends Resource
                         TextInput::make('price')
                             ->label('Harga')
                             ->numeric()
-                            ->required()
+                            ->required(true)
                             ->minValue(0)
                             ->prefix('Rp'),
                         TextInput::make('stock')
                             ->label('Stok')
                             ->numeric()
-                            ->required()
+                            ->required(true)
                             ->minValue(0),
                         DatePicker::make('expired_date')
+                            ->required(true)
                             ->label('Tanggal Kedaluwarsa'),
                         Select::make('category_id')
                             ->label('Kategori')

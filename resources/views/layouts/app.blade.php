@@ -1,32 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ApotekKu</title>
-
-    {{-- Tailwind --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <title>@yield('title', 'Restock Obat - Sistem Apotek Modern')</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
-<body class="bg-slate-50 flex flex-col min-h-screen">
+<body class="bg-slate-50 font-sans text-gray-800 antialiased flex flex-col min-h-screen">
 
-    {{-- 🔝 NAVBAR --}}
     @include('partials.navbar')
 
-    {{-- 📦 CONTENT --}}
-    <main class="flex-1 p-6">
-
-        {{-- 🔔 ALERT --}}
-        @include('partials.alert')
-
-        {{-- ISI HALAMAN --}}
+    <main class="flex-grow">
         @yield('content')
-
     </main>
 
-    {{-- 🔻 FOOTER --}}
     @include('partials.footer')
 
 </body>
+
 </html>
