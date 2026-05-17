@@ -3,96 +3,58 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Medicine;
-use Illuminate\Validation\Rule;
 
 class KatalogController extends Controller
 {
     public function index()
     {
-        $products = Medicine::all();
-        return view('katalog.index', compact('products'));
-    }
-
-    public function show($id)
-    {
-        $product = Medicine::find($id);
-
-        if (!$product) {
-            abort(404, 'Produk tidak ditemukan');
-        }
-
-        return view('katalog.show', compact('product'));
-    }
-
-    public function search(Request $request)
-    {
-        $keyword = $request->keyword;
-
-        $products = Medicine::where('name', 'like', '%' . $keyword . '%')->get();
-
-        return view('katalog.search', compact('products', 'keyword'));
-    }
-
-    public function kategori($kategori)
-    {
-        return view('produk.kategori', compact('kategori'));
-    }
-    public function edit($id)
-    {
-        $product = Medicine::findOrFail($id);
-        return view('katalog.edit', compact('product'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $product = Medicine::findOrFail($id);
-
-        $data = $request->validate([
-            'code' => ['required', 'string', 'max:255', Rule::unique('medicines', 'code')->ignore($product->id)],
-            'name' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'integer', 'min:0'],
-            'stock' => ['required', 'integer', 'min:0'],
-            'expired_date' => ['nullable', 'date'],
-            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-        ]);
-
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = time() . '_' . preg_replace('/[^A-Za-z0-9._-]/', '_', $file->getClientOriginalName());
-            $file->move(public_path('images/obat'), $filename);
-            $data['image'] = $filename;
-        }
-
-        $product->update($data);
-
-        return redirect('/katalog/' . $id);
-    }
-    public function create()
-    {
-        return view('katalog.create');
-    }
-
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'code' => ['required', 'string', 'max:255', 'unique:medicines,code'],
-            'name' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'integer', 'min:0'],
-            'stock' => ['required', 'integer', 'min:0'],
-            'expired_date' => ['nullable', 'date'],
-            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-        ]);
-
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = time() . '_' . preg_replace('/[^A-Za-z0-9._-]/', '_', $file->getClientOriginalName());
-            $file->move(public_path('images/obat'), $filename);
-            $data['image'] = $filename;
-        }
-
-        $product = Medicine::create($data);
-
-        return redirect()->route('katalog.show', $product->id);
+        $packages = [
+            [
+                'name' => 'Apotek Starter',
+                'description' => 'Cocok untuk apotek retail atau klinik skala kecil.',
+                'price' => 'Rp 199k',
+                'period' => '/bulan',
+                'is_featured' => false,
+                'badge' => null,
+                'button_text' => 'Mulai 7 Hari Gratis!!!',
+                'features' => [
+                    ['text' => 'Management Stok Inbound & Outbound', 'available' => true],
+                    ['text' => 'Maksimal 1,000 SKU Obat', 'available' => true],
+                    ['text' => 'Sistem FEFO/FIFO Dasar', 'available' => true],
+                    ['text' => 'Fitur Multi-Gudang', 'available' => false],
+                ]
+            ],
+            [
+                'name' => 'Gudang Pro',
+                'description' => 'Ideal untuk distributor dan jaringan faskes menengah.',
+                'price' => 'Rp 499k',
+                'period' => '/bulan',
+                'is_featured' => true,
+                'badge' => 'Paling Laris',
+                'button_text' => 'Pilih Paket Pro',
+                'features' => [
+                    ['text' => 'Semua Fitur Starter', 'available' => true],
+                    ['text' => 'Unlimited SKU Obat', 'available' => true],
+                    ['text' => 'Validasi Resep Digital', 'available' => true],
+                    ['text' => 'Notifikasi Otomatis Min. Stock Level', 'available' => true],
+                ]
+            ],
+            [
+                'name' => 'RS Enterprise',
+                'description' => 'Skala besar untuk Rumah Sakit & Farmasi Nasional.',
+                'price' => 'Custom',
+                'period' => '',
+                'is_featured' => false,
+                'badge' => null,
+                'button_text' => 'Hubungi Sales',
+                'features' => [
+                    ['text' => 'Semua Fitur Gudang Pro', 'available' => true],
+                    ['text' => 'Manajemen Multi-Gudang', 'available' => true],
+                    ['text' => 'API Integration', 'available' => true],
+                    ['text' => 'Support Prioritas 24/7', 'available' => true],
+                ]
+            ]
+        ];
+        return view('katalog', compact('packages'));
     }
 }

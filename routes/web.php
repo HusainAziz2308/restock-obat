@@ -41,8 +41,7 @@ Route::get('/affani', function () {
 */
 Route::view('/about', 'pages.about')->name('about.index');
 Route::view('/contact', 'pages.contact')->name('contact.index');
-Route::view('/faq', 'pages.faq')->name('faq.index');
-Route::view('/panduan', 'pages.panduan')->name('panduan.index');
+Route::view('/katalog', 'pages.katalog')->name('katalog.index');
 Route::view('/promo', 'pages.promo')->name('promo.index');
 
 
@@ -51,20 +50,7 @@ Route::view('/promo', 'pages.promo')->name('promo.index');
 | KATALOG (UTAMA)
 |--------------------------------------------------------------------------
 */
-Route::prefix('katalog')->group(function () {
-
-    Route::get('/', [KatalogController::class, 'index'])->name('katalog.index');
-    Route::get('/create', [KatalogController::class, 'create'])->name('katalog.create');
-    Route::post('/store', [KatalogController::class, 'store'])->name('katalog.store');
-    Route::get('/search', [KatalogController::class, 'search'])->name('katalog.search');
-    Route::get('/kategori/{kategori}', [KatalogController::class, 'kategori'])->name('katalog.kategori');
-    Route::get('/{id}/edit', [KatalogController::class, 'edit'])->name('katalog.edit');
-    Route::put('/{id}', [KatalogController::class, 'update'])->name('katalog.update');
-    Route::get('/{id}', [KatalogController::class, 'show'])->name('katalog.show');
-});
-
-
-
+Route::get('/katalog', [KatalogController::class, 'index'])->name('katalog.index');
 
 /*
 |--------------------------------------------------------------------------
