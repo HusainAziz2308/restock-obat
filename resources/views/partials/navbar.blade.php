@@ -1,10 +1,10 @@
-<nav x-data="{ scrolled: false }" 
+<nav x-data="{ scrolled: false }"
      @scroll.window="scrolled = (window.scrollY > 20) ? true : false"
      :class="scrolled ? 'bg-white/90 backdrop-blur-md shadow-md py-3' : 'bg-transparent py-5'"
      class="fixed w-full top-0 z-50 transition-all duration-300 ease-in-out">
-     
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-        
+
+    <div class="max-w-full mx-auto px-6 md:px-12 flex justify-between items-center">
+
         <div class="flex items-center gap-2">
             <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
@@ -15,34 +15,34 @@
         </div>
 
         <div class="hidden md:flex gap-6 items-center">
-            
-            <a href="/home" 
-               :class="scrolled ? 'text-slate-700 hover:text-slate-900' : 'text-white/90 hover:text-white'"
-               class="font-medium transition-colors duration-200 pb-1 {{ Route::is('home.index') ? 'border-b-2 border-blue-600' : '' }}">
+
+            <a href="/home"
+               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-200 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-200  hover:text-white'"
+               class="font-medium transition-all duration-200 pb-1 {{ Route::is('home.index') ? 'border-b-2 border-blue-600' : '' }}">
                Home
             </a>
 
-            <a href="/katalog" 
-               :class="scrolled ? 'text-slate-700 hover:text-slate-900' : 'text-white/90 hover:text-white'"
-               class="font-medium transition-colors duration-200 pb-1 {{ Route::is('katalog.*') ? 'border-b-2 border-blue-600' : '' }}">
+            <a href="/katalog"
+               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-200 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-200 hover:text-white'"
+               class="font-medium transition-all duration-200 pb-1 {{ Route::is('katalog.*') ? 'border-b-2 border-blue-600' : '' }}">
                Katalog Layanan
             </a>
 
-            <a href="/about" 
-               :class="scrolled ? 'text-slate-700 hover:text-slate-900' : 'text-white/90 hover:text-white'"
-               class="font-medium transition-colors duration-200 pb-1 {{ Route::is('about.index') ? 'border-b-2 border-blue-600' : '' }}">
+            <a href="/about"
+               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-200 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-200 hover:text-white'"
+               class="font-medium transition-all duration-200 pb-1 {{ Route::is('about.index') ? 'border-b-2 border-blue-600' : '' }}">
                Tentang Kami
             </a>
 
-            <a href="/promo" 
-               :class="scrolled ? 'text-slate-700 hover:text-slate-900' : 'text-white/90 hover:text-white'"
-               class="font-medium transition-colors duration-200 pb-1 {{ Route::is('promo.index') ? 'border-b-2 border-blue-600' : '' }}">
+            <a href="/promo"
+               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-200 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-200 hover:text-white'"
+               class="font-medium transition-all duration-200 pb-1 {{ Route::is('promo.index') ? 'border-b-2 border-blue-600' : '' }}">
                Promo
             </a>
 
-            <a href="/contact" 
-               :class="scrolled ? 'text-slate-700 hover:text-slate-900' : 'text-white/90 hover:text-white'"
-               class="font-medium transition-colors duration-200 pb-1 {{ Route::is('contact.index') ? 'border-b-2 border-blue-600' : '' }}">
+            <a href="/contact"
+               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-200 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-200 hover:text-white'"
+               class="font-medium transition-all duration-200 pb-1 {{ Route::is('contact.index') ? 'border-b-2 border-blue-600' : '' }}">
                Kontak
             </a>
         </div>
