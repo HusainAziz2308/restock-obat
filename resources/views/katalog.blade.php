@@ -25,13 +25,15 @@
                     
                     <div class="{{ $package['is_featured'] ? 'bg-blue-600 rounded-3xl p-8 border border-blue-600 shadow-2xl transform md:-translate-y-5 hover:-translate-y-10 transition-all duration-300 relative' : 'bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-5 transition-all duration-300' }}">
                         
-                        @if($package['badge'])
-                            <div class="absolute top-0 right-8 transform -translate-y-1/2">
+                        <div class="absolute top-0 right-8 transform -translate-y-1/2 flex flex-col gap-1 items-end">
+                            @if($package['badge'])
                                 <span class="bg-amber-400 text-amber-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-sm">
                                     {{ $package['badge'] }}
                                 </span>
-                            </div>
-                        @endif
+                            @endif
+                            
+                           
+                        </div>
 
                         <h3 class="text-xl font-bold mb-2 {{ $package['is_featured'] ? 'text-white' : 'text-slate-900' }}">
                             {{ $package['name'] }}
@@ -41,6 +43,19 @@
                         </p>
                         
                         <div class="mb-6 {{ $package['is_featured'] ? 'text-white' : 'text-slate-900' }}">
+                            <div class="flex items-center gap-2 mb-1">
+                                @if(isset($package['original_price']) && $package['original_price'])
+                                    <span class="text-sm line-through block opacity-60">
+                                        {{ $package['original_price'] }}
+                                    </span>
+                                @endif
+
+                                @if(isset($package['discount']) && $package['discount'])
+                                    <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wide shadow-sm">
+                                        {{ $package['discount'] }}
+                                    </span>
+                                @endif
+                            </div>
                             <span class="text-4xl font-extrabold">{{ $package['price'] }}</span>
                             <span class="{{ $package['is_featured'] ? 'text-blue-200' : 'text-slate-500' }}">{{ $package['period'] }}</span>
                         </div>
