@@ -23,7 +23,7 @@
             <div class="flex flex-col md:flex-row justify-center gap-8 max-w-7xl mx-auto items-center md:items-stretch">
                 @foreach ($packages as $package)
                     
-                    <div class="{{ $package['is_featured'] ? 'bg-blue-600 rounded-3xl p-8 border border-blue-600 shadow-2xl transform md:-translate-y-4 hover:-translate-y-8 transition-all duration-300 relative' : 'bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-4 transition-all duration-300' }}">
+                    <div class="{{ $package['is_featured'] ? 'bg-blue-600 rounded-3xl p-8 border border-blue-600 shadow-2xl transform md:-translate-y-5 hover:-translate-y-10 transition-all duration-300 relative' : 'bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-5 transition-all duration-300' }}">
                         
                         @if($package['badge'])
                             <div class="absolute top-0 right-8 transform -translate-y-1/2">
@@ -49,11 +49,11 @@
                             @foreach ($package['features'] as $feature)
                                 <li class="flex items-center {{ !$feature['available'] ? 'text-slate-400' : '' }}">
                                     @if($feature['available'])
-                                        <svg class="w-5 h-5 mr-3 flex-shrink-0 {{ $package['is_featured'] ? 'text-blue-200' : 'text-emerald-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 mr-3 shrink-0 {{ $package['is_featured'] ? 'text-blue-200' : 'text-emerald-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                         </svg>
                                     @else
-                                        <svg class="w-5 h-5 mr-3 flex-shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-5 h-5 mr-3 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                         </svg>
                                     @endif
@@ -62,7 +62,7 @@
                             @endforeach
                         </ul>
 
-                        <button class="w-full py-3 px-4 font-bold rounded-xl transition-colors shadow-sm {{ $package['is_featured'] ? 'bg-white text-blue-600 hover:bg-slate-50 hover:scale-105 transition-all duration-300' : ($package['price'] === 'Custom' ? 'bg-white text-slate-900 border-2 border-slate-200 hover:bg-slate-50 hover:scale-105 transition-all duration-300' : 'bg-white text-blue-600 border-2 border-blue-100 hover:bg-blue-50 hover:scale-105 transition-all duration-300') }}">
+                        <button class="w-full py-3 px-4 font-bold rounded-xl transition-colors shadow-sm {{ $package['is_featured'] ? 'bg-white text-blue-600 hover:bg-slate-50 hover:scale-105 transition-all duration-300' : ($package['price'] === 'Custom' ? 'bg-white text-slate-900 border-2 border-slate-200 hover:text-white hover:bg-blue-600 hover:scale-105 transition-all duration-300' : 'bg-white text-blue-600 border-2 hover:bg-blue-600 hover:text-white border-blue-100 hover:scale-105 transition-all duration-300') }}">
                             {{ $package['button_text'] }}
                         </button>
                         
