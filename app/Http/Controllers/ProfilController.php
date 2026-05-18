@@ -21,7 +21,7 @@ class ProfilController extends Controller
             'foto' => 'nukhi.jpeg'
         ],
         [
-            'nama' => 'Husain Aziz Al Rosyid',
+            'nama' => 'Husain Aziz Al Rosyid, CEE',
             'nim' => '4124031',
             'program_studi' => 'Sistem Informasi',
             'semester' => '4',

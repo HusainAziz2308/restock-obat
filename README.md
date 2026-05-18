@@ -12,17 +12,17 @@
 ## 📷 Screenshot Halaman Welcome
 Berikut adalah tampilan halaman **Welcome** dari website yang telah dibuat:
 
-![Screenshot Welcome](/github/images/Screenshot%20welcome.png)
+![Screenshot Welcome](/github/HalamanHome.gif)
 
-> Catatan: Pastikan file gambar disimpan di repository pada folder **/github/images/**
+> Catatan: File gambar disimpan di repository pada folder **/github/**
 
 ---
 
 ## 🔗 Halaman Perkenalan
 Berikut adalah tampilan halaman **Perkenalan** dari website yang telah dibuat:
 
-![Screenshot PErkenalan](/github/images/Screenshot%20perkenalan.png)
-👉 [Halaman Perkenalan](http://localhost:8000/perkenalan)
+![Screenshot PErkenalan](/github/HalamanPerkenalan.gif)
+👉 [Halaman Perkenalan](http://localhost:8000/about)
 
 ---
 

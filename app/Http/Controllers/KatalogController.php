@@ -3,96 +3,83 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Medicine;
-use Illuminate\Validation\Rule;
+use Spatie\LaravelPackageTools\Package;
 
 class KatalogController extends Controller
 {
     public function index()
     {
-        $products = Medicine::all();
-        return view('katalog.index', compact('products'));
-    }
+        $rawPackages = [
+            [
+                'name' => 'Apotek Starter',
+                'description' => 'Cocok untuk apotek retail atau klinik skala kecil.',
+                'original_price' => 199000,
+                'discount_percent' => 0, // %
+                'period' => '/bulan',
+                'is_featured' => false,
+                'badge' => null,
+                'button_text' => 'Mulai 7 Hari Gratis!!!',
+                'features' => [
+                    ['text' => 'Management Stok Inbound & Outbound', 'available' => true],
+                    ['text' => 'Maksimal 1,000 SKU Obat', 'available' => true],
+                    ['text' => 'Sistem FEFO/FIFO Dasar', 'available' => true],
+                    ['text' => 'Fitur Multi-Gudang', 'available' => false],
+                ]
+            ],
+            [
+                'name' => 'Gudang Pro',
+                'description' => 'Ideal untuk distributor dan jaringan faskes menengah.',
+                'original_price' => 499000,
+                'discount_percent' => 20, // %
+                'period' => '/bulan',
+                'is_featured' => true,
+                'badge' => 'Paling Laris',
+                'button_text' => 'Pilih Paket Pro',
+                'features' => [
+                    ['text' => 'Semua Fitur Starter', 'available' => true],
+                    ['text' => 'Unlimited SKU Obat', 'available' => true],
+                    ['text' => 'Validasi Resep Digital', 'available' => true],
+                    ['text' => 'Notifikasi Otomatis Min. Stock Level', 'available' => true],
+                ]
+            ],
+            [
+                'name' => 'RS Enterprise',
+                'description' => 'Skala besar untuk Rumah Sakit & Farmasi Nasional.',
+                'original_price' => 'Custom',
+                'discount_percent' => 0,
+                'period' => '',
+                'is_featured' => false,
+                'badge' => null,
+                'button_text' => 'Hubungi Sales',
+                'features' => [
+                    ['text' => 'Semua Fitur Gudang Pro', 'available' => true],
+                    ['text' => 'Manajemen Multi-Gudang', 'available' => true],
+                    ['text' => 'API Integration', 'available' => true],
+                    ['text' => 'Support Prioritas 24/7', 'available' => true],
+                ]
+            ]
+        ];
 
-    public function show($id)
-    {
-        $product = Medicine::find($id);
+        $packages = [];
+        foreach ($rawPackages as $package) {
+            if (is_string($package['original_price']) && !is_numeric($package['original_price'])) {
+                $package['price'] = $package['original_price'];
+                $package['original_price'] = null;
+                $package['discount'] = null;
+            } elseif ($package['discount_percent'] > 0) {
+                $discountAmount = ($package['original_price'] * $package['discount_percent']) / 100;
+                $finalPrice = $package['original_price'] - $discountAmount;
 
-        if (!$product) {
-            abort(404, 'Produk tidak ditemukan');
+                $package['price'] = 'Rp ' . ($finalPrice / 1000) . 'k';
+                $package['original_price'] = 'Rp ' . ($package['original_price'] / 1000) . 'k';
+                $package['discount'] = 'Diskon ' . $package['discount_percent'] . '%';
+            } else {
+                $package['price'] = 'Rp ' . ($package['original_price'] / 1000) . 'k';
+                $package['original_price'] = null;
+                $package['discount'] = null;
+            }
+            $packages[] = $package;
         }
-
-        return view('katalog.show', compact('product'));
-    }
-
-    public function search(Request $request)
-    {
-        $keyword = $request->keyword;
-
-        $products = Medicine::where('name', 'like', '%' . $keyword . '%')->get();
-
-        return view('katalog.search', compact('products', 'keyword'));
-    }
-
-    public function kategori($kategori)
-    {
-        return view('produk.kategori', compact('kategori'));
-    }
-    public function edit($id)
-    {
-        $product = Medicine::findOrFail($id);
-        return view('katalog.edit', compact('product'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $product = Medicine::findOrFail($id);
-
-        $data = $request->validate([
-            'code' => ['required', 'string', 'max:255', Rule::unique('medicines', 'code')->ignore($product->id)],
-            'name' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'integer', 'min:0'],
-            'stock' => ['required', 'integer', 'min:0'],
-            'expired_date' => ['nullable', 'date'],
-            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-        ]);
-
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = time() . '_' . preg_replace('/[^A-Za-z0-9._-]/', '_', $file->getClientOriginalName());
-            $file->move(public_path('images/obat'), $filename);
-            $data['image'] = $filename;
-        }
-
-        $product->update($data);
-
-        return redirect('/katalog/' . $id);
-    }
-    public function create()
-    {
-        return view('katalog.create');
-    }
-
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'code' => ['required', 'string', 'max:255', 'unique:medicines,code'],
-            'name' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'integer', 'min:0'],
-            'stock' => ['required', 'integer', 'min:0'],
-            'expired_date' => ['nullable', 'date'],
-            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-        ]);
-
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = time() . '_' . preg_replace('/[^A-Za-z0-9._-]/', '_', $file->getClientOriginalName());
-            $file->move(public_path('images/obat'), $filename);
-            $data['image'] = $filename;
-        }
-
-        $product = Medicine::create($data);
-
-        return redirect()->route('katalog.show', $product->id);
+        return view('katalog', compact('packages'));
     }
 }
