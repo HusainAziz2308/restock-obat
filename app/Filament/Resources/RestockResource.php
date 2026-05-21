@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\RestockResource\Pages;
 use App\Models\Restock;
 use BackedEnum;
+use UnitEnum;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -12,6 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -22,11 +24,27 @@ class RestockResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-arrow-down-tray';
 
+    protected static string|UnitEnum|null $navigationGroup = 'Inventory';
+
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $navigationLabel = 'Restock';
 
     protected static ?string $modelLabel = 'Restock';
 
     protected static ?string $pluralModelLabel = 'Restock';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::whereMonth('restock_date', now()->month)
+            ->whereYear('restock_date', now()->year)
+            ->count();
+    }
+
+    public static function getNavigationBadgeTooltip(): \Illuminate\Contracts\Support\Htmlable|string|null
+    {
+        return 'Jumlah restock bulan ini';
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -79,7 +97,8 @@ class RestockResource extends Resource
                     ->label('Jumlah Masuk')
                     ->badge()
                     ->color('success')
-                    ->sortable(),
+                    ->sortable()
+                    ->summarize(Sum::make()->label('Total Masuk')),
                 TextColumn::make('creator.name')
                     ->label('Dibuat Oleh')
                     ->placeholder('-')

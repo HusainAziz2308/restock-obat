@@ -20,4 +20,14 @@ class CreateRestock extends CreateRecord
     {
         $this->record->medicine->increment('stock', $this->record->quantity);
     }
+
+    protected function getCreatedNotificationTitle(): ?string
+    {
+        return 'Restock berhasil dicatat';
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

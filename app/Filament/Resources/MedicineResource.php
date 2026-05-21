@@ -6,6 +6,7 @@ use App\Filament\Resources\MedicineResource\Pages;
 use App\Models\Medicine;
 use App\Models\Restock;
 use BackedEnum;
+use UnitEnum;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -31,6 +32,10 @@ class MedicineResource extends Resource
     protected static ?string $model = Medicine::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-beaker';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Inventory';
+
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationLabel = 'Obat';
 
