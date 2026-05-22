@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\MedicineResource\Pages;
 use App\Models\Medicine;
 use App\Models\Restock;
+use App\Models\StockMovement;
 use BackedEnum;
 use UnitEnum;
 use Filament\Actions\Action;
@@ -26,6 +27,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class MedicineResource extends Resource
 {
@@ -67,7 +69,9 @@ class MedicineResource extends Resource
                             ->numeric()
                             ->required(true)
                             ->minValue(0)
-                            ->helperText('Jumlah stok obat saat ini.'),
+                            ->disabled(fn (?Medicine $record): bool => $record !== null)
+                            ->dehydrated(fn (?Medicine $record): bool => $record === null)
+                            ->helperText('Stok awal hanya diisi saat tambah obat. Setelah itu ubah stok lewat Restock, Barang Keluar, atau Koreksi Stok.'),
                         TextInput::make('min_stock')
                             ->label('Stok Minimum')
                             ->numeric()
@@ -176,16 +180,37 @@ class MedicineResource extends Resource
                         $quantity = (int) $data['quantity'];
                         $oldStock = $record->stock;
 
-                        Restock::create([
-                            'medicine_id' => $record->id,
-                            'quantity' => $quantity,
-                            'restock_date' => now()->toDateString(),
-                            'note' => $data['note'] ?? null,
-                            'created_by' => auth()->id(),
-                        ]);
+                        DB::transaction(function () use ($record, $quantity, $data): void {
+                            $medicine = Medicine::query()
+                                ->lockForUpdate()
+                                ->findOrFail($record->id);
+                            $beforeStock = $medicine->stock;
 
-                        $record->increment('stock', $quantity);
-                        $record->refresh();
+                            $restock = Restock::create([
+                                'medicine_id' => $medicine->id,
+                                'quantity' => $quantity,
+                                'restock_date' => now()->toDateString(),
+                                'note' => $data['note'] ?? null,
+                                'created_by' => auth()->id(),
+                            ]);
+
+                            $medicine->increment('stock', $quantity);
+                            $medicine->refresh();
+
+                            StockMovement::create([
+                                'medicine_id' => $medicine->id,
+                                'type' => 'in',
+                                'quantity' => $quantity,
+                                'before_stock' => $beforeStock,
+                                'after_stock' => $medicine->stock,
+                                'source_type' => $restock::class,
+                                'source_id' => $restock->id,
+                                'note' => $restock->note,
+                                'created_by' => $restock->created_by,
+                            ]);
+
+                            $record->setRawAttributes($medicine->getAttributes(), true);
+                        });
 
                         Notification::make()
                             ->title('Restock berhasil')

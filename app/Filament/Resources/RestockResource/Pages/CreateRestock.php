@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\RestockResource\Pages;
 
 use App\Filament\Resources\RestockResource;
+use App\Models\StockMovement;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateRestock extends CreateRecord
@@ -18,7 +19,23 @@ class CreateRestock extends CreateRecord
 
     protected function afterCreate(): void
     {
-        $this->record->medicine->increment('stock', $this->record->quantity);
+        $medicine = $this->record->medicine()->lockForUpdate()->first();
+        $beforeStock = $medicine->stock;
+
+        $medicine->increment('stock', $this->record->quantity);
+        $medicine->refresh();
+
+        StockMovement::create([
+            'medicine_id' => $medicine->id,
+            'type' => 'in',
+            'quantity' => $this->record->quantity,
+            'before_stock' => $beforeStock,
+            'after_stock' => $medicine->stock,
+            'source_type' => $this->record::class,
+            'source_id' => $this->record->id,
+            'note' => $this->record->note,
+            'created_by' => $this->record->created_by,
+        ]);
     }
 
     protected function getCreatedNotificationTitle(): ?string

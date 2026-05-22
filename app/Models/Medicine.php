@@ -42,6 +42,16 @@ class Medicine extends Model
         return $this->hasMany(Restock::class);
     }
 
+    public function stockOuts()
+    {
+        return $this->hasMany(StockOut::class);
+    }
+
+    public function stockMovements()
+    {
+        return $this->hasMany(StockMovement::class);
+    }
+
     public function getStockStatusAttribute(): string
     {
         if ($this->stock <= 0) {
