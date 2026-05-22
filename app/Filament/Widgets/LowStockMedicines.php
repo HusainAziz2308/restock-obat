@@ -9,8 +9,6 @@ use Filament\Widgets\TableWidget;
 
 class LowStockMedicines extends TableWidget
 {
-    protected static ?int $sort = 3;
-
     protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
@@ -36,7 +34,7 @@ class LowStockMedicines extends TableWidget
                 TextColumn::make('stock')
                     ->label('Stok')
                     ->badge()
-                    ->color(fn (int $state): string => $state <= 0 ? 'danger' : 'warning')
+                    ->color(fn(int $state): string => $state <= 0 ? 'danger' : 'warning')
                     ->sortable(),
                 TextColumn::make('min_stock')
                     ->label('Stok Minimum')
@@ -44,7 +42,7 @@ class LowStockMedicines extends TableWidget
                 TextColumn::make('stock_status')
                     ->label('Status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'Habis' => 'danger',
                         'Perlu Restock' => 'warning',
                         default => 'success',
