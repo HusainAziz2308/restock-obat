@@ -13,6 +13,7 @@ class Medicine extends Model
         'name',
         'price',
         'stock',
+        'min_stock',
         'expired_date',
         'image',
         'category_id',
@@ -34,6 +35,34 @@ class Medicine extends Model
     public function unit()
     {
         return $this->belongsTo(Unit::class, 'unit_id', 'unit_id');
+    }
+
+    public function restocks()
+    {
+        return $this->hasMany(Restock::class);
+    }
+
+    public function stockOuts()
+    {
+        return $this->hasMany(StockOut::class);
+    }
+
+    public function stockMovements()
+    {
+        return $this->hasMany(StockMovement::class);
+    }
+
+    public function getStockStatusAttribute(): string
+    {
+        if ($this->stock <= 0) {
+            return 'Habis';
+        }
+
+        if ($this->stock <= $this->min_stock) {
+            return 'Perlu Restock';
+        }
+
+        return 'Aman';
     }
 
     public function getImageUrlAttribute(): string
