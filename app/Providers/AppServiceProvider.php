@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers;
+
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -18,6 +19,9 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends PanelProvider
 {
@@ -70,14 +74,27 @@ class AppServiceProvider extends PanelProvider
             ],
             [
                 'image' => 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1600&auto=format&fit=crop',
-                'title' => 'Terintegrasi dengan Supplier Utama',
-                'subtitle' => 'Permudah jalur distribusi dan pemesanan obat langsung dari supplier terpercaya Anda.'
+                'title' => 'Dashboard Realtime',
+                'subtitle' => 'Menampilkan dashboard barang masuk dan keluar secara realtime'
             ],
             [
                 'image' => 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?q=80&w=1600&auto=format&fit=crop',
-                'title' => 'Sistem Antarmuka Berbasis Cloud',
+                'title' => 'Sistem Management Berbasis Cloud',
                 'subtitle' => 'Akses dashboard manajemen apotek kapan saja dan di mana saja dengan aman.'
             ]
         ]);
+
+        // Tombol login google
+        // Halaman Login
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
+            fn(): string => View::make('components.google-login')->render()
+        );
+
+        // Halaman Register
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::AUTH_REGISTER_FORM_AFTER,
+            fn(): string => View::make('components.google-login')->render()
+        );
     }
 }
