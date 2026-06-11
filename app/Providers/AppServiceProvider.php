@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers;
+
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -18,6 +19,9 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends PanelProvider
 {
@@ -79,5 +83,18 @@ class AppServiceProvider extends PanelProvider
                 'subtitle' => 'Akses dashboard manajemen apotek kapan saja dan di mana saja dengan aman.'
             ]
         ]);
+
+        // Tombol login google
+        // Halaman Login
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
+            fn(): string => View::make('components.google-login')->render()
+        );
+
+        // Halaman Register
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::AUTH_REGISTER_FORM_AFTER,
+            fn(): string => View::make('components.google-login')->render()
+        );
     }
 }

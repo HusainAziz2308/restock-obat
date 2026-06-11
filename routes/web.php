@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\GoogleAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,3 +69,11 @@ Route::get('/about/{nim}', [ProfilController::class, 'show'])->name('about.show'
 */
 Route::redirect('/obat', '/katalog');
 Route::get('/obat/{id}', [KatalogController::class, 'show']);
+
+/*
+|--------------------------------------------------------------------------
+| Google Authentication
+|--------------------------------------------------------------------------
+*/
+Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('auth.google');
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
