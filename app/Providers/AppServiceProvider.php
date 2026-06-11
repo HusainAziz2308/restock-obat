@@ -74,12 +74,12 @@ class AppServiceProvider extends PanelProvider
             ],
             [
                 'image' => 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1600&auto=format&fit=crop',
-                'title' => 'Terintegrasi dengan Supplier Utama',
-                'subtitle' => 'Permudah jalur distribusi dan pemesanan obat langsung dari supplier terpercaya Anda.'
+                'title' => 'Dashboard Realtime',
+                'subtitle' => 'Menampilkan dashboard barang masuk dan keluar secara realtime'
             ],
             [
                 'image' => 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?q=80&w=1600&auto=format&fit=crop',
-                'title' => 'Sistem Antarmuka Berbasis Cloud',
+                'title' => 'Sistem Management Berbasis Cloud',
                 'subtitle' => 'Akses dashboard manajemen apotek kapan saja dan di mana saja dengan aman.'
             ]
         ]);
