@@ -58,12 +58,34 @@ class RestockResource extends Resource
                             ->searchable()
                             ->preload()
                             ->required(),
+                        Select::make('supplier_id')
+                            ->label('Supplier')
+                            ->relationship('supplier', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->placeholder('Pilih supplier (opsional)'),
                         TextInput::make('quantity')
                             ->label('Jumlah Masuk')
                             ->numeric()
                             ->required()
                             ->minValue(1)
+                            ->reactive()
+                            ->afterStateUpdated(fn ($state, $get, $set) => $set('total_cost', ((float) ($state ?? 0)) * ((float) ($get('cost_price') ?? 0))))
                             ->helperText('Jumlah ini akan ditambahkan ke stok obat.'),
+                        TextInput::make('cost_price')
+                            ->label('Harga Beli Satuan')
+                            ->numeric()
+                            ->minValue(0)
+                            ->prefix('Rp')
+                            ->reactive()
+                            ->afterStateUpdated(fn ($state, $get, $set) => $set('total_cost', ((float) ($state ?? 0)) * ((float) ($get('quantity') ?? 0))))
+                            ->placeholder('0'),
+                        TextInput::make('total_cost')
+                            ->label('Total Harga Beli')
+                            ->numeric()
+                            ->prefix('Rp')
+                            ->disabled()
+                            ->dehydrated(),
                         DatePicker::make('restock_date')
                             ->label('Tanggal Restock')
                             ->default(now())
@@ -93,12 +115,28 @@ class RestockResource extends Resource
                     ->label('Nama Obat')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('supplier.name')
+                    ->label('Supplier')
+                    ->placeholder('-')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('quantity')
                     ->label('Jumlah Masuk')
                     ->badge()
                     ->color('success')
                     ->sortable()
                     ->summarize(Sum::make()->label('Total Masuk')),
+                TextColumn::make('cost_price')
+                    ->label('Harga Beli')
+                    ->money('IDR')
+                    ->placeholder('-')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('total_cost')
+                    ->label('Total Beli')
+                    ->money('IDR')
+                    ->placeholder('-')
+                    ->sortable()
+                    ->summarize(Sum::make()->label('Total Pembelian')),
                 TextColumn::make('creator.name')
                     ->label('Dibuat Oleh')
                     ->placeholder('-')
@@ -117,6 +155,11 @@ class RestockResource extends Resource
                 SelectFilter::make('medicine_id')
                     ->label('Obat')
                     ->relationship('medicine', 'name')
+                    ->searchable()
+                    ->preload(),
+                SelectFilter::make('supplier_id')
+                    ->label('Supplier')
+                    ->relationship('supplier', 'name')
                     ->searchable()
                     ->preload(),
             ])

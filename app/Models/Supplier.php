@@ -1,24 +1,30 @@
 <?php
 
 namespace App\Models;
+
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
-class Unit extends Model
+class Supplier extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'unit_id';
-
-    protected $fillable = ['name', 'company_id'];
+    protected $fillable = [
+        'name',
+        'phone',
+        'address',
+        'contact_person',
+        'notes',
+        'company_id',
+    ];
 
     protected static function booted(): void
     {
-        static::creating(function (Unit $unit) {
-            if (blank($unit->company_id) && Auth::check() && Auth::user()->company_id) {
-                $unit->company_id = Auth::user()->company_id;
+        static::creating(function (Supplier $supplier) {
+            if (blank($supplier->company_id) && Auth::check() && Auth::user()->company_id) {
+                $supplier->company_id = Auth::user()->company_id;
             }
         });
 
@@ -32,5 +38,10 @@ class Unit extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function restocks()
+    {
+        return $this->hasMany(Restock::class);
     }
 }

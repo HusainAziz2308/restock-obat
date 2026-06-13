@@ -3,8 +3,10 @@
 namespace App\Filament\Resources\RestockResource\Pages;
 
 use App\Filament\Resources\RestockResource;
+use App\Models\Medicine;
 use App\Models\StockMovement;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Support\Facades\DB;
 
 class CreateRestock extends CreateRecord
 {
@@ -19,23 +21,28 @@ class CreateRestock extends CreateRecord
 
     protected function afterCreate(): void
     {
-        $medicine = $this->record->medicine()->lockForUpdate()->first();
-        $beforeStock = $medicine->stock;
+        DB::transaction(function () {
+            $medicine = Medicine::query()
+                ->lockForUpdate()
+                ->findOrFail($this->record->medicine_id);
 
-        $medicine->increment('stock', $this->record->quantity);
-        $medicine->refresh();
+            $beforeStock = $medicine->stock;
 
-        StockMovement::create([
-            'medicine_id' => $medicine->id,
-            'type' => 'in',
-            'quantity' => $this->record->quantity,
-            'before_stock' => $beforeStock,
-            'after_stock' => $medicine->stock,
-            'source_type' => $this->record::class,
-            'source_id' => $this->record->id,
-            'note' => $this->record->note,
-            'created_by' => $this->record->created_by,
-        ]);
+            $medicine->increment('stock', $this->record->quantity);
+            $medicine->refresh();
+
+            StockMovement::create([
+                'medicine_id' => $medicine->id,
+                'type' => 'in',
+                'quantity' => $this->record->quantity,
+                'before_stock' => $beforeStock,
+                'after_stock' => $medicine->stock,
+                'source_type' => $this->record::class,
+                'source_id' => $this->record->id,
+                'note' => $this->record->note,
+                'created_by' => $this->record->created_by,
+            ]);
+        });
     }
 
     protected function getCreatedNotificationTitle(): ?string

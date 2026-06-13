@@ -12,19 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('google_id')->nullable()->after('email');
-            $table->string('password')->nullable()->change();
+            $table->foreignId('company_id')->nullable()->constrained()->nullOnDelete()->after('id');
         });
     }
-        
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('google_id');
-            $table->string('password')->nullable(false)->change();
+            $table->dropForeign(['company_id']);
+            $table->dropColumn('company_id');
         });
     }
 };
