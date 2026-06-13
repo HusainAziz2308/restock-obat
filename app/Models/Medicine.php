@@ -21,6 +21,7 @@ class Medicine extends Model
         'image',
         'category_id',
         'unit_id',
+        'company_id',
     ];
 
     protected function casts(): array
@@ -32,6 +33,12 @@ class Medicine extends Model
 
     protected static function booted(): void
     {
+        static::creating(function (Medicine $medicine) {
+            if (blank($medicine->company_id) && Auth::check() && Auth::user()->company_id) {
+                $medicine->company_id = Auth::user()->company_id;
+            }
+        });
+
         static::addGlobalScope('company', function (Builder $builder) {
             if (Auth::check() && Auth::user()->company_id) {
                 $builder->where('company_id', Auth::user()->company_id);

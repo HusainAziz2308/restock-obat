@@ -218,6 +218,64 @@ class MedicineResource extends Resource
                             ->success()
                             ->send();
                     }),
+                Action::make('stockOpname')
+                    ->label('Stock Opname')
+                    ->icon('heroicon-o-clipboard-document-check')
+                    ->color('warning')
+                    ->modalHeading(fn (Medicine $record): string => 'Stock Opname ' . $record->name)
+                    ->modalDescription(fn (Medicine $record): string => "Stok sistem saat ini: {$record->stock}.")
+                    ->modalSubmitActionLabel('Simpan Koreksi')
+                    ->form([
+                        TextInput::make('actual_count')
+                            ->label('Jumlah Fisik Aktual')
+                            ->numeric()
+                            ->required()
+                            ->minValue(0)
+                            ->helperText('Isi jumlah stok hasil hitung fisik di rak/gudang.'),
+                        Textarea::make('note')
+                            ->label('Catatan')
+                            ->placeholder('Opsional: alasan koreksi stok'),
+                    ])
+                    ->action(function (Medicine $record, array $data): void {
+                        DB::transaction(function () use ($record, $data): void {
+                            $medicine = Medicine::query()
+                                ->lockForUpdate()
+                                ->findOrFail($record->id);
+
+                            $beforeStock = $medicine->stock;
+                            $actualCount = (int) $data['actual_count'];
+                            $difference = $actualCount - $beforeStock;
+
+                            if ($difference === 0) {
+                                Notification::make()
+                                    ->title('Tidak ada selisih')
+                                    ->body("Stok {$medicine->name} sudah sesuai: {$beforeStock}.")
+                                    ->warning()
+                                    ->send();
+
+                                return;
+                            }
+
+                            $medicine->update(['stock' => $actualCount]);
+
+                            StockMovement::create([
+                                'medicine_id' => $medicine->id,
+                                'type' => 'adjustment',
+                                'quantity' => abs($difference),
+                                'before_stock' => $beforeStock,
+                                'after_stock' => $actualCount,
+                                'note' => ($data['note'] ?? null) ?: 'Stock Opname: ' . ($difference > 0 ? '+' : '') . $difference,
+                                'created_by' => auth()->id(),
+                            ]);
+
+                            $record->setRawAttributes($medicine->getAttributes(), true);
+                        });
+
+                        Notification::make()
+                            ->title('Stock opname berhasil')
+                            ->success()
+                            ->send();
+                    }),
                 EditAction::make(),
                 DeleteAction::make(),
             ])

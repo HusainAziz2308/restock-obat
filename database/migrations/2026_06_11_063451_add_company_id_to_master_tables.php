@@ -11,17 +11,23 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->unsignedBigInteger('company_id')->nullable()->after('slug');
-        });
+        if (! Schema::hasColumn('categories', 'company_id')) {
+            Schema::table('categories', function (Blueprint $table) {
+                $table->unsignedBigInteger('company_id')->nullable()->after('slug');
+            });
+        }
 
-        Schema::table('units', function (Blueprint $table) {
-            $table->unsignedBigInteger('company_id')->nullable()->after('name');
-        });
+        if (! Schema::hasColumn('units', 'company_id')) {
+            Schema::table('units', function (Blueprint $table) {
+                $table->unsignedBigInteger('company_id')->nullable()->after('name');
+            });
+        }
 
-        Schema::table('medicines', function (Blueprint $table) {
-            $table->unsignedBigInteger('company_id')->nullable()->after('unit_id');
-        });
+        if (! Schema::hasColumn('medicines', 'company_id')) {
+            Schema::table('medicines', function (Blueprint $table) {
+                $table->unsignedBigInteger('company_id')->nullable()->after('unit_id');
+            });
+        }
 
         $owner = User::first(); 
         

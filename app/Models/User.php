@@ -26,6 +26,7 @@ class User extends Authenticatable implements FilamentUser
         'email',
         'password',
         'google_id',
+        'company_id',
         'email_verified_at',
     ];
 
@@ -54,7 +55,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true; 
+        return filled($this->company_id);
     }
 
     public function company()

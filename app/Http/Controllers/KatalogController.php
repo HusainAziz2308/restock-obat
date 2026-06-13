@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Spatie\LaravelPackageTools\Package;
 
 class KatalogController extends Controller
 {
