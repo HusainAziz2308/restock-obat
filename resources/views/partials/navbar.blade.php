@@ -34,12 +34,6 @@
                Tentang Kami
             </a>
 
-            <a href="/promo"
-               :class="scrolled ? 'text-slate-700 hover:scale-105 duration-200 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-200 hover:text-white'"
-               class="font-medium transition-all duration-200 pb-1 {{ Route::is('promo.index') ? 'border-b-2 border-blue-600' : '' }}">
-               Promo
-            </a>
-
             <a href="/contact"
                :class="scrolled ? 'text-slate-700 hover:scale-105 duration-200 hover:text-slate-900' : 'text-white/90 hover:scale-105 duration-200 hover:text-white'"
                class="font-medium transition-all duration-200 pb-1 {{ Route::is('contact.index') ? 'border-b-2 border-blue-600' : '' }}">

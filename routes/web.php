@@ -40,7 +40,7 @@ Route::get('/affani', function () {
 |--------------------------------------------------------------------------
 */
 Route::view('/about', 'pages.about')->name('about.index');
-Route::view('/contact', 'pages.contact')->name('contact.index');
+Route::view('/contact', 'kontak')->name('contact.index');
 Route::view('/katalog', 'pages.katalog')->name('katalog.index');
 Route::view('/promo', 'pages.promo')->name('promo.index');
 
