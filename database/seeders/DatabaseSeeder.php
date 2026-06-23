@@ -31,5 +31,14 @@ class DatabaseSeeder extends Seeder
             'name' => 'affani',
             'password' => Hash::make('password'),
         ]);
+
+        $this->call([
+            RolePermissionSeeder::class,
+        ]);
+
+        $admin = User::first();
+        if ($admin && !$admin->hasRole('Owner')) {
+            $admin->assignRole('Owner');
+        }
     }
 }
