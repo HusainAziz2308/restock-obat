@@ -20,7 +20,7 @@ class Beranda extends Page
     public static function canAccess(): bool
     {
         $user = auth()->user();
-        
+        if (!$user) return false;
         return $user->hasAnyRole(['Apoteker', 'Pegawai']);
     }
     public function mount(): void
