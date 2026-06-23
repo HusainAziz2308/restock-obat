@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class StockOut extends Model
 {
@@ -31,6 +33,15 @@ class StockOut extends Model
         return [
             'out_date' => 'date',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('company', function (Builder $builder) {
+            if (Auth::check() && Auth::user()->company_id) {
+                $builder->whereHas('medicine');
+            }
+        });
     }
 
     public function medicine()

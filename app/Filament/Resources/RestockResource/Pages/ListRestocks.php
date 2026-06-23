@@ -13,6 +13,12 @@ class ListRestocks extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('export')
+                ->label('Export Excel')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->color('gray')
+                ->url(route('admin.export.restocks'))
+                ->openUrlInNewTab(),
             Actions\CreateAction::make(),
         ];
     }
