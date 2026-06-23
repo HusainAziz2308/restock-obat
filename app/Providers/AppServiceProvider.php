@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\View;
 use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Blade;
+use App\Filament\Pages\Dashboard;
+use Filament\Navigation\MenuItem;
 
 class AppServiceProvider extends PanelProvider
 {
@@ -30,6 +32,12 @@ class AppServiceProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label(fn() => 'Role: ' . (auth()->user()->roles->pluck('name')->implode(', ') ?: 'Tidak ada'))
+                    ->icon('heroicon-o-identification')
+                    ->url('#'),
+            ])
             ->path('admin')
             ->login()          // Route /admin/login
             ->registration()   // Route /admin/register
@@ -41,7 +49,7 @@ class AppServiceProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([

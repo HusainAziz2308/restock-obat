@@ -11,6 +11,11 @@ class RestockPolicy
     /**
      * Determine whether the user can view any models.
      */
+    public static function canAccess(User $user): bool
+    {
+        return $user->hasAnyRole(['Owner', 'Manager']);
+    }
+
     public function viewAny(User $user): bool
     {
         // Hanya Owner dan Manager yang bisa melihat menu dan daftar transaksi
@@ -31,7 +36,7 @@ class RestockPolicy
     public function create(User $user): bool
     {
         // Pegawai justru HARUS bisa mencatat restock masuk
-        return $user->hasAnyRole(['Owner', 'Manager', 'Apoteker', 'Pegawai']);
+        return $user->hasAnyRole(['Owner', 'Manager']);
     }
 
     /**
@@ -40,7 +45,7 @@ class RestockPolicy
     public function update(User $user, Restock $restock): bool
     {
         // Transaksi yang sudah masuk biasanya tidak boleh sembarang diedit pegawai biasa
-        return $user->hasAnyRole(['Owner', 'Manager', 'Apoteker']);
+        return $user->hasAnyRole(['Owner', 'Manager']);
     }
 
     /**

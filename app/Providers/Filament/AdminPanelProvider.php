@@ -26,6 +26,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->homeUrl('/admin/beranda')
             ->login()
             ->colors([
                 'primary' => Color::Amber,
