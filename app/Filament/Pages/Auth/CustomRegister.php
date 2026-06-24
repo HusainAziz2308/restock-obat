@@ -9,6 +9,7 @@ use Filament\Auth\Pages\Register as BaseRegister;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use \Spatie\Permission\Models\Role;
+use \Spatie\Permission\PermissionRegistrar;
 
 class CustomRegister extends BaseRegister
 {
@@ -57,6 +58,7 @@ class CustomRegister extends BaseRegister
         ]);
 
         $user->assignRole($role);
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
         return $user;
     }
 }

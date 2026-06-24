@@ -21,6 +21,7 @@ class UserPolicy
     public function view(User $user, User $model): bool
     {
         return $user->hasAnyRole(['Owner', 'Manager']);
+        return $user->pharmacy_id === $model->pharmacy_id;
     }
 
     /**
@@ -36,7 +37,8 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        // Owner bisa edit siapa saja. Manager tidak boleh mengedit Owner.
+        if ($user->pharmacy_id !== $model->pharmacy_id) return false;
+
         if ($model->hasRole('Owner') && !$user->hasRole('Owner')) {
             return false;
         }
@@ -49,6 +51,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
+        if ($user->pharmacy_id !== $model->pharmacy_id) return false;
         // Hanya Owner yang boleh menghapus staf
         return $user->hasRole('Owner');
     }
