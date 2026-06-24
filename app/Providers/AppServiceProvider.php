@@ -7,6 +7,8 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
+use App\Models\User;
+use App\Observers\UserObserver;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
@@ -104,5 +106,7 @@ class AppServiceProvider extends PanelProvider
             PanelsRenderHook::AUTH_REGISTER_FORM_AFTER,
             fn(): string => View::make('components.google-login')->render()
         );
+
+        User::observe(UserObserver::class);
     }
 }

@@ -12,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
-{   
+{
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -27,6 +27,7 @@ class User extends Authenticatable implements FilamentUser
         'password',
         'google_id',
         'email_verified_at',
+        'pharmacy_id',
     ];
 
     /**
@@ -54,11 +55,17 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true; 
+        if ($this->email === 'email-kamu@test.com') return true;
+        return true;
     }
 
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function pharmacy()
+    {
+        return $this->belongsTo(Pharmacy::class);
     }
 }
