@@ -25,7 +25,7 @@
                     {{ $slide['subtitle'] }}
                 </p>
                 <div class="flex gap-4">
-                    <a href="/admin/login" class="px-8 py-3.5 text-base font-bold text-white bg-blue-600 hover:scale-110 rounded-xl shadow-lg transition-all duration-200">
+                    <a href="/katalog" class="px-8 py-3.5 text-base font-bold text-white bg-blue-600 hover:scale-110 rounded-xl shadow-lg transition-all duration-200">
                         Mulai Kelola
                     </a>
                 </div>
