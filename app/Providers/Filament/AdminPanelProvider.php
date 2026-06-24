@@ -18,6 +18,8 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use app\Filament\Pages\Auth\CustomRegister;
+use \Spatie\Permission\Middleware\PermissionMiddleware;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -29,6 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->homeUrl('/admin/beranda')
             ->login()
+            ->registration(CustomRegister::class)
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -54,6 +57,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                PermissionMiddleware::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
