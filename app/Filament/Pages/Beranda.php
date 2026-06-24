@@ -19,9 +19,7 @@ class Beranda extends Page
     // Atur agar halaman ini khusus untuk Apoteker dan Pegawai
     public static function canAccess(): bool
     {
-        $user = auth()->user();
-        
-        return $user->hasAnyRole(['Apoteker', 'Pegawai']);
+        return auth()->user()->hasAnyRole(['Apoteker', 'Pegawai', 'Owner', 'Manager']);
     }
     public function mount(): void
     {
