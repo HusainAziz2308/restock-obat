@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\KontakController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +42,8 @@ Route::get('/affani', function () {
 |--------------------------------------------------------------------------
 */
 Route::view('/about', 'pages.about')->name('about.index');
-Route::view('/contact', 'pages.contact')->name('contact.index');
+Route::get('/kontak', [KontakController::class, 'index'])->name('kontak.index');
+Route::post('/kontak', [KontakController::class, 'store'])->name('kontak.store');
 Route::view('/katalog', 'pages.katalog')->name('katalog.index');
 
 /*
