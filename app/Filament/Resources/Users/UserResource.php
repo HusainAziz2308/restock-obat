@@ -52,6 +52,8 @@ class UserResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('pharmacy_id', auth()->user()?->pharmacy_id);
+        return parent::getEloquentQuery()
+        ->where('pharmacy_id', auth()->user()?->pharmacy_id)
+        ->whereNotNull('pharmacy_id');
     }
 }

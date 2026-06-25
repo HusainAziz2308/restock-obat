@@ -3,6 +3,8 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use \App\Providers\Filament\AdminPanelProvider;
+use \App\Http\Middleware\EnsurePharmacyIsSetup;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -11,10 +13,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->redirectGuestsTo(fn () => route('filament.admin.auth.login'));
+        $middleware->web(append: [
+            EnsurePharmacyIsSetup::class,
+        ]);
     })
     ->withProviders([
-        \App\Providers\Filament\AdminPanelProvider::class,
+       AdminPanelProvider::class,
     ])
     ->withExceptions(function (Exceptions $exceptions): void {
         //

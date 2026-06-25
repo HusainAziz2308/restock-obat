@@ -8,6 +8,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Auth\Pages\Register as BaseRegister;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use \Spatie\Permission\Models\Role;
 use \Spatie\Permission\PermissionRegistrar;
 
@@ -23,12 +24,6 @@ class CustomRegister extends BaseRegister
                         $this->getEmailFormComponent(),
                         $this->getPasswordFormComponent(),
                         $this->getPasswordConfirmationFormComponent(),
-
-                        TextInput::make('pharmacy_name')
-                            ->label('Nama Apotek / Klinik')
-                            ->placeholder('Contoh: Apotek Sehat Jaya')
-                            ->required()
-                            ->maxLength(255),
                     ])
                     ->statePath('data'),
             ),
@@ -37,28 +32,25 @@ class CustomRegister extends BaseRegister
 
     protected function handleRegistration(array $data): Model
     {
-        $planId = request()->query('plan');
+        return DB::transaction(function () use ($data) {
 
-        $pharmacy = Pharmacy::create([
-            'name' => $data['pharmacy_name'],
-            'service_package_id' => $planId,
-            'status' => 'active',
-        ]);
+            $user = $this->getUserModel()::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'pharmacy_id' => null,
+            ]);
 
-        $user = $this->getUserModel()::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'pharmacy_id' => $pharmacy->id,
-        ]);
+            $role = Role::firstOrCreate(['name' => 'Owner', 'guard_name' => 'web']);
+            $user->assignRole($role);
+            app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        $role = Role::firstOrCreate([
-            'name' => 'Owner',
-            'guard_name' => 'web'
-        ]);
+            return $user;
+        });
+    }
 
-        $user->assignRole($role);
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
-        return $user;
+    protected function getRedirectUrl(): string
+    {
+        return url('/admin/setup-apotek'); 
     }
 }

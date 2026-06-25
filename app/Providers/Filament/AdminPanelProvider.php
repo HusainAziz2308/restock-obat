@@ -20,6 +20,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use app\Filament\Pages\Auth\CustomRegister;
 use \Spatie\Permission\Middleware\PermissionMiddleware;
+use \App\Http\Middleware\EnsurePharmacyIsSetup;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -32,6 +33,7 @@ class AdminPanelProvider extends PanelProvider
             ->homeUrl('/admin/beranda')
             ->login()
             ->registration(CustomRegister::class)
+            ->passwordReset()
             ->colors([
                 'primary' => Color::Amber,
             ])
