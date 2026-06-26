@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use \App\Traits\BelongsToPharmacy;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class StockMovement extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToPharmacy;
 
     public const TYPES = [
         'in' => 'Masuk',
@@ -17,6 +19,7 @@ class StockMovement extends Model
     ];
 
     protected $fillable = [
+        'pharmacy_id',
         'medicine_id',
         'type',
         'quantity',
@@ -41,5 +44,10 @@ class StockMovement extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function pharmacy(): BelongsTo
+    {
+        return $this->belongsTo(Pharmacy::class);
     }
 }

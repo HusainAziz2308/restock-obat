@@ -19,7 +19,7 @@ class EnsurePharmacyIsSetup
 
         if ($user && empty($user->pharmacy_id)) {
             if (
-                ! $request->is('admin/setup-apotek*') && 
+                ! $request->is('filament.admin.pages.setup-apotek*') && 
                 ! $request->routeIs('filament.admin.auth.logout') &&
                 ! $request->is('livewire*')
             ) {

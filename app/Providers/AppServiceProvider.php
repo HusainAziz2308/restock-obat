@@ -28,6 +28,7 @@ use App\Filament\Pages\Dashboard;
 use Filament\Navigation\MenuItem;
 use App\Http\Responses\RegisterResponse;
 use Filament\Http\Responses\Auth\Contracts\RegistrationResponse;
+use \app\Models\Pharmacy;
 
 class AppServiceProvider extends PanelProvider
 {
@@ -42,6 +43,7 @@ class AppServiceProvider extends PanelProvider
                     ->icon('heroicon-o-identification')
                     ->url('#'),
             ])
+            ->tenant(Pharmacy::class)
             ->path('admin')
             ->login()          // Route /admin/login
             ->registration()   // Route /admin/register

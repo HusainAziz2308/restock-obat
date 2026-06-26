@@ -3,36 +3,17 @@
 namespace App\Filament\Pages;
 
 use App\Models\Pharmacy;
-use Filament\Notifications\Notification;
-use Filament\Pages\Page;
-use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Pages\Tenancy\RegisterTenant;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 
-class SetupApotek extends Page implements HasForms
+class SetupApotek extends RegisterTenant
 {
-    use InteractsWithForms;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
-    
-    protected static string | array $middlewares = ['auth'];
-
-    protected string $view = 'filament.pages.setup-apotek';
-
-    protected static ?string $title = 'Setup Apotek';
-
-    protected static bool $shouldRegisterNavigation = false;
-
-    protected static ?string $slug = 'setup-apotek';
-
-    public ?array $data = [];
-
-    public function mount(): void
+    public static function getLabel(): string
     {
-        $this->form->fill();
+        return 'Setup Apotek';
     }
 
     public function form(Schema $form): Schema
@@ -46,30 +27,18 @@ class SetupApotek extends Page implements HasForms
                         ->required()
                         ->maxLength(255),
                 ])
-        ])->statePath('data');
+        ]);
     }
 
-    public function save(): void
+    protected function handleRegistration(array $data): Pharmacy
     {
-        $formData = $this->form->getState();
-        $user = Auth::user();
-
-        if (! $user) {
-            return;
-        }
-
         $pharmacy = Pharmacy::create([
-            'name' => $formData['name'],
+            'name' => $data['name'],
             'status' => 'active',
         ]);
 
-        $user->update(['pharmacy_id' => $pharmacy->id]);
+        auth()->user()->update(['pharmacy_id' => $pharmacy->id]);
 
-        Notification::make()
-            ->title('Apotek berhasil disiapkan!')
-            ->success()
-            ->send();
-
-        $this->redirect('/admin');
+        return $pharmacy;
     }
 }
