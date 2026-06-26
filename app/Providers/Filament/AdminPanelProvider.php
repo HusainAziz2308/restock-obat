@@ -20,6 +20,8 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use \Spatie\Permission\Middleware\PermissionMiddleware;
 use \App\Http\Middleware\EnsurePharmacyIsSetup;
+use Filament\Models\Contracts\HasTenants;
+use \app\Models\Pharmacy;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -29,6 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->tenant(Pharmacy::class)
             ->homeUrl('/admin/beranda')
             ->login()
             ->registration()
@@ -36,13 +39,13 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->brandLogo(asset('images/logo restock obat.png'))
+            ->brandLogo(asset('images/favicon.svg'))
             ->brandLogoHeight('3rem')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
                 Dashboard::class,
-                Beranda::class,
+                Beranda::class, 
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([

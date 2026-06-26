@@ -56,4 +56,10 @@ class UserResource extends Resource
         ->where('pharmacy_id', auth()->user()?->pharmacy_id)
         ->whereNotNull('pharmacy_id');
     }
+
+    public static function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['pharmacy_id'] = auth()->user()->pharmacy_id;
+        return $data;
+    }
 }

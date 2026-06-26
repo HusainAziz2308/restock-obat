@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use \App\Models\Scopes\PharmacyScope;
 
 class Restock extends Model
 {
@@ -22,6 +23,11 @@ class Restock extends Model
         return [
             'restock_date' => 'date',
         ];
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new PharmacyScope);
     }
 
     public function medicine()

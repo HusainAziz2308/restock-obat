@@ -130,4 +130,10 @@ class RestockResource extends Resource
             'create' => Pages\CreateRestock::route('/create'),
         ];
     }
+
+    public static function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['pharmacy_id'] = auth()->user()->pharmacy_id;
+        return $data;
+    }
 }

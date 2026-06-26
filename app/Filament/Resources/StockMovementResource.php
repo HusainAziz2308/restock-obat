@@ -98,4 +98,10 @@ class StockMovementResource extends Resource
             'index' => Pages\ListStockMovements::route('/'),
         ];
     }
+
+    public static function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['pharmacy_id'] = auth()->user()->pharmacy_id;
+        return $data;
+    }
 }

@@ -135,4 +135,10 @@ class StockOutResource extends Resource
             'create' => Pages\CreateStockOut::route('/create'),
         ];
     }
+
+    public static function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['pharmacy_id'] = auth()->user()->pharmacy_id;
+        return $data;
+    }
 }
