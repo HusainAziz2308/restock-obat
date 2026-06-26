@@ -88,7 +88,7 @@
                             @endforeach
                         </ul>
 
-                        <a href="{{ $package['price'] === 'Custom' ? route('kontak.index') : route('filament.admin.auth.register', ['plan' => $package['id']]) }}"
+                        <a href="{{ $package['price'] === 'Custom' ? route('kontak.index') : url('/admin/register?plan=' . $package['id']) }}"
                             class="block text-center w-full py-3 px-4 font-bold rounded-xl transition-colors shadow-sm {{ $package['is_featured'] ? 'bg-white text-blue-600 hover:bg-slate-50 hover:scale-105 transition-all duration-300' : ($package['price'] === 'Custom' ? 'bg-white text-slate-900 border-2 border-slate-200 hover:text-white hover:bg-blue-600 hover:scale-105 transition-all duration-300' : 'bg-white text-blue-600 border-2 hover:bg-blue-600 hover:text-white border-blue-100 hover:scale-105 transition-all duration-300') }}">
                             {{ $package['button_text'] }}
                         </a>

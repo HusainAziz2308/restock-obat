@@ -18,12 +18,12 @@ class EnsurePharmacyIsSetup
         $user = $request->user();
 
         if ($user && empty($user->pharmacy_id)) {
-            
-            if ($request->is('admin*')) {
-                
-                if (! $request->is('admin/setup-apotek*')) {
-                    return redirect('/admin/setup-apotek');
-                }
+            if (
+                ! $request->is('admin/setup-apotek*') && 
+                ! $request->routeIs('filament.admin.auth.logout') &&
+                ! $request->is('livewire*')
+            ) {
+                return redirect()->to('/admin/setup-apotek');
             }
         }
 

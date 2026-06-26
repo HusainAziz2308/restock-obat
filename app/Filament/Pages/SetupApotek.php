@@ -3,16 +3,22 @@
 namespace App\Filament\Pages;
 
 use App\Models\Pharmacy;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
 
-class SetupApotek extends Page
+class SetupApotek extends Page implements HasForms
 {
+    use InteractsWithForms;
+
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
+    
+    protected static string | array $middlewares = ['auth'];
 
     protected string $view = 'filament.pages.setup-apotek';
 
@@ -29,12 +35,12 @@ class SetupApotek extends Page
         $this->form->fill();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $form): Schema
     {
-        return $form->schema([
+        return $form->components([
             Section::make('Informasi Apotek')
                 ->description('Silakan lengkapi data apotek Anda untuk memulai.')
-                ->schema([
+                ->components([ 
                     TextInput::make('name')
                         ->label('Nama Apotek')
                         ->required()

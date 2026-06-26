@@ -26,6 +26,8 @@ use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Blade;
 use App\Filament\Pages\Dashboard;
 use Filament\Navigation\MenuItem;
+use App\Http\Responses\RegisterResponse;
+use Filament\Http\Responses\Auth\Contracts\RegistrationResponse;
 
 class AppServiceProvider extends PanelProvider
 {
@@ -72,6 +74,11 @@ class AppServiceProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    public function register(): void
+    {
+        $this->app->singleton(RegistrationResponse::class, RegisterResponse::class);
     }
 
     public function boot(): void
