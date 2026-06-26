@@ -4,16 +4,19 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasTenants;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, HasTenants
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
@@ -21,6 +24,7 @@ class User extends Authenticatable implements FilamentUser
      *
      * @var list<string>
      */
+    
     protected $fillable = [
         'name',
         'email',
@@ -67,5 +71,20 @@ class User extends Authenticatable implements FilamentUser
     public function pharmacy()
     {
         return $this->belongsTo(Pharmacy::class);
+    }
+
+    /**
+     * =========================================================================
+     * FILAMENT MULTI-TENANCY METHODS
+     * =========================================================================
+     */
+    public function getTenants(Panel $panel): array | Collection
+    {
+        return $this->pharmacy ? collect([$this->pharmacy]) : collect();
+    }
+
+    public function canAccessTenant(Model $tenant): bool
+    {
+        return $this->pharmacy_id === $tenant->id;
     }
 }

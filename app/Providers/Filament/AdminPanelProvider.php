@@ -18,8 +18,12 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use app\Filament\Pages\Auth\CustomRegister;
 use \Spatie\Permission\Middleware\PermissionMiddleware;
+use \App\Http\Middleware\EnsurePharmacyIsSetup;
+use Filament\Navigation\MenuItem;
+use App\Models\Pharmacy;
+use \App\Filament\Pages\SetupApotek;
+use \App\Filament\Pages\EditApotek;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -29,13 +33,23 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->homeUrl('/admin/beranda')
+            ->homeUrl('/admin')
+            ->tenant(Pharmacy::class) 
+            ->tenantRegistration(SetupApotek::class)
+            ->tenantProfile(EditApotek::class)
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label(fn() => 'Role: ' . (auth()->user()?->roles->pluck('name')->implode(', ') ?: 'Tidak ada'))
+                    ->icon('heroicon-o-identification')
+                    ->url('#'),
+            ])
             ->login()
-            ->registration(CustomRegister::class)
+            ->registration()
+            ->passwordReset()
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->brandLogo(asset('images/logo restock obat.png'))
+            ->brandLogo(asset('images/favicon.svg'))
             ->brandLogoHeight('3rem')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
@@ -57,7 +71,6 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                PermissionMiddleware::class,
             ])
             ->authMiddleware([
                 Authenticate::class,

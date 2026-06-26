@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use \App\Traits\BelongsToPharmacy;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;   
 
 class StockOut extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToPharmacy;
 
     public const REASONS = [
         'Terjual' => 'Terjual',
@@ -18,6 +20,7 @@ class StockOut extends Model
     ];
 
     protected $fillable = [
+        'pharmacy_id',
         'medicine_id',
         'quantity',
         'out_date',
@@ -41,5 +44,9 @@ class StockOut extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+    public function pharmacy(): BelongsTo
+    {
+        return $this->belongsTo(Pharmacy::class);
     }
 }

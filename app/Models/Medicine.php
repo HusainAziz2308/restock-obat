@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\Auth;
 class Medicine extends Model
 {
     private const IMAGE_PLACEHOLDER = 'https://placehold.co/300x300?text=No+Image';
-
+    public function pharmacy(): BelongsTo
+    {
+        return $this->belongsTo(Pharmacy::class);
+    }
     protected $fillable = [
         'code',
         'name',
