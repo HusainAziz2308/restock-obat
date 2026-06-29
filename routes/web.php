@@ -77,3 +77,7 @@ Route::get('/obat/{id}', [KatalogController::class, 'show']);
 */
 Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('auth.google');
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
+
+if (app()->environment('production')) {
+    URL::forceScheme('https');
+}
