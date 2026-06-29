@@ -1,14 +1,14 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
-    "api/kelompok4.php": {
-      "runtime": "vercel-php@0.7.4"
+    "api/index.php": {
+      "runtime": "vercel-php"
     }
   },
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/api/kelompok4.php"
+      "destination": "/api/index.php"
     }
   ]
 }
