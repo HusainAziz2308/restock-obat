@@ -1,18 +1,18 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
   "functions": {
     "api/husain.php": {
       "runtime": "vercel-php@0.7.4"
     }
   },
-  "rewrites": [
+  "routes": [
     {
-        "src": "/src/(.*)", 
-        "dest": "/src/$1"
+      "src": "/api/husain.php",
+      "dest": "/api/husain.php"
     },
     {
-      "source": "/(.*)",
-      "destination": "/api/husain.php"
+      "src": "/(.*)",
+      "dest": "/api/husain.php"
     }
   ]
 }
