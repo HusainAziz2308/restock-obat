@@ -9,6 +9,9 @@ RUN apt-get update && apt-get install -y \
 
 COPY . .
 
+RUN mkdir -p bootstrap/cache storage/framework/cache storage/framework/sessions storage/framework/views storage/logs \
+    && chmod -R 775 bootstrap/cache storage
+
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN composer install --no-dev --optimize-autoloader
