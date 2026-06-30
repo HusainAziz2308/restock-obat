@@ -16,5 +16,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
+RUN echo "=== Checking autoload_files.php ===" \
+    && cat vendor/composer/autoload_files.php \
+    && echo "=== Checking for index.php references in vendor ===" \
+    && grep -rl "public/index.php" vendor/ --include="*.php" || echo "no match in vendor" \
+    && echo "=== artisan list output ===" \
+    && php artisan list 2>&1 | head -50
+
 EXPOSE 8000
-CMD ["sh", "-c", "php artisan package:discover --ansi -vvv && php artisan migrate --force && php -S 0.0.0.0:8000 -t public"]
+CMD ["sh", "-c", "php artisan package:discover --ansi && php artisan migrate --force && php -S 0.0.0.0:8000 -t public"]
