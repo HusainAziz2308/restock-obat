@@ -17,4 +17,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 EXPOSE 8000
-CMD ["sh", "-c", "php artisan package:discover --ansi && php artisan migrate --force && php -S 0.0.0.0:8000 -t public"]
+CMD ["sh", "-c", "php artisan package:discover --ansi -vvv && php artisan migrate --force && php -S 0.0.0.0:8000 -t public"]
