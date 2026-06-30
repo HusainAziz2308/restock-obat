@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
     "api/husain.php": {
-      "runtime": "vercel-community-php"
+      "runtime": "vercel-php@0.7.4"
     }
   },
   "rewrites": [
@@ -10,5 +10,6 @@
       "source": "/(.*)",
       "destination": "/api/husain.php"
     }
-  ]
+  ],
+  "buildCommand": "echo skip..."
 }
