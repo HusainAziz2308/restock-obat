@@ -1,24 +1,14 @@
 {
-  "version": 2,
-  "framework": null,
-  "builds": [
-    {
-      "src": "public/index.php",
-      "use": "vercel-php@0.7.3"
-    },
-    {
-      "src": "public/**",
-      "use": "@vercel/static"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/husain.php": {
+      "runtime": "vercel-php@0.7.4"
     }
-  ],
-  "routes": [
+  },
+  "rewrites": [
     {
-      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf))",
-      "dest": "/public/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "public/index.php"
+      "source": "/(.*)",
+      "destination": "/api/husain.php"
     }
   ]
 }
